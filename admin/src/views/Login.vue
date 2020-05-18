@@ -37,8 +37,9 @@ export default {
     }
   },
   methods: {
-    login() {
-      console.log(this.loginForm)
+    async login() {
+      const res = await this.$http.post('login', this.loginForm)
+      console.log(res)
       this.$router.push('/')
     }
   }

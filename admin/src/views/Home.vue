@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <span>饿了吗后台管理系统</span>
-      <el-button type="info">退出</el-button>
+      <el-button type="info" @click="logout">退出</el-button>
     </el-header>
     <el-container>
       <el-aside width="200px">
@@ -78,6 +78,11 @@ export default {
           children: [{ name: '订单列表', path: '/orderList' }]
         }
       ]
+    }
+  },
+  methods: {
+    logout() {
+      this.$router.push('/login')
     }
   }
 }

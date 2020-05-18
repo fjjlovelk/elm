@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: ''
+  baseURL: 'http://localhost:3000/api/admin/'
 })
 
 Vue.prototype.$http = http
