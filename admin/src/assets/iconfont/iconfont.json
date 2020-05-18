@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11236845",
+      "name": "food",
+      "font_class": "food",
+      "unicode": "eb9e",
+      "unicode_decimal": 60318
+    },
+    {
+      "icon_id": "14362851",
+      "name": "order",
+      "font_class": "order",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "4977674",
+      "name": "users",
+      "font_class": "users",
+      "unicode": "e939",
+      "unicode_decimal": 59705
+    },
+    {
+      "icon_id": "10568581",
+      "name": "store",
+      "font_class": "shetuan",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
       "icon_id": "2853878",
       "name": "user",
       "font_class": "user1",

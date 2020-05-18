@@ -16,7 +16,7 @@
         >
           <el-submenu v-for="menu in navMenu" :index="menu.path" :key="menu.path">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="iconfont" :class="menu.icon"></i>
               <span>{{menu.name}}</span>
             </template>
             <el-menu-item
@@ -45,6 +45,7 @@ export default {
         {
           name: '用户管理',
           path: '/userList',
+          icon: 'iconusers',
           children: [
             { name: '用户列表', path: '/userList' },
             { name: '用户分析', path: '/userData' }
@@ -53,6 +54,7 @@ export default {
         {
           name: '商家管理',
           path: '/shopList',
+          icon: 'iconshetuan',
           children: [
             { name: '商家列表', path: '/shopList' },
             { name: '商家分类', path: '/shopSort' },
@@ -62,6 +64,7 @@ export default {
         {
           name: '食品管理',
           path: '/foodList',
+          icon: 'iconfood',
           children: [
             { name: '食品列表', path: '/foodList' },
             { name: '食品分类', path: '/foodSort' },
@@ -71,6 +74,7 @@ export default {
         {
           name: '订单管理',
           path: '/orderList',
+          icon: 'iconorder',
           children: [{ name: '订单列表', path: '/orderList' }]
         }
       ]
@@ -96,5 +100,8 @@ export default {
 }
 .el-aside .el-menu {
   border-right: none;
+}
+.iconfont {
+  padding-right: 10px;
 }
 </style>
