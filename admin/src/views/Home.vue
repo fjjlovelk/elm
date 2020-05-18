@@ -23,6 +23,7 @@
               v-for="subMenu in menu.children"
               :index="subMenu.path"
               :key="subMenu.path"
+              @click="saveMenu(menu.name, subMenu.name)"
             >
               <i class="el-icon-menu"></i>
               {{subMenu.name}}
@@ -82,7 +83,12 @@ export default {
   },
   methods: {
     logout() {
+      sessionStorage.removeItem('token')
       this.$router.push('/login')
+    },
+    saveMenu(menu, subMenu) {
+      sessionStorage.setItem('menu', menu)
+      sessionStorage.setItem('subMenu', subMenu)
     }
   }
 }

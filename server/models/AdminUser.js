@@ -4,7 +4,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 7
+    maxlength: 14
   },
   password: {
     type: String,

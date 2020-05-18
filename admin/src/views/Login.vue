@@ -2,13 +2,13 @@
   <div class="login">
     <div class="login-box">
       <img src="../assets/logo.png" />
-      <el-form :model="loginForm">
-        <el-form-item>
+      <el-form :model="loginForm" ref="loginRef" :rules="loginRule">
+        <el-form-item prop="username">
           <el-input v-model="loginForm.username" placeholder="用户名">
             <i slot="prefix" class="iconfont iconuser1"></i>
           </el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input v-model="loginForm.password" type="password" placeholder="密码">
             <i slot="prefix" class="iconfont iconwodemima"></i>
           </el-input>
@@ -33,14 +33,30 @@ export default {
       loginForm: {
         username: '',
         password: ''
+      },
+      loginRule: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 2, max: 14, message: '用户名在2~14个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 5, message: '密码不得少于5个字符', trigger: 'blur' }
+        ]
       }
     }
   },
   methods: {
-    async login() {
-      const res = await this.$http.post('login', this.loginForm)
-      console.log(res)
-      this.$router.push('/')
+    login() {
+      this.$refs.loginRef.validate(async valid => {
+        if (!valid) return false
+        const { data: res } = await this.$http.post('login', this.loginForm)
+        if (res.meta.status === 200) {
+          this.$message.success(res.meta.message)
+          sessionStorage.setItem('token', res.data)
+          this.$router.push('/')
+        }
+      })
     }
   }
 }
