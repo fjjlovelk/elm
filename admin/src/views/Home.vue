@@ -1,18 +1,100 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <el-container>
+    <el-header>
+      <span>饿了吗后台管理系统</span>
+      <el-button type="info">退出</el-button>
+    </el-header>
+    <el-container>
+      <el-aside width="200px">
+        <el-menu
+          router
+          unique-opened
+          :default-active="$route.path"
+          background-color="#333744"
+          text-color="#fff"
+          active-text-color="#409EFF"
+        >
+          <el-submenu v-for="menu in navMenu" :index="menu.path" :key="menu.path">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>{{menu.name}}</span>
+            </template>
+            <el-menu-item
+              v-for="subMenu in menu.children"
+              :index="subMenu.path"
+              :key="subMenu.path"
+            >
+              <i class="el-icon-menu"></i>
+              {{subMenu.name}}
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+      <el-main>
+        <router-view />
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      navMenu: [
+        {
+          name: '用户管理',
+          path: '/userList',
+          children: [
+            { name: '用户列表', path: '/userList' },
+            { name: '用户分析', path: '/userData' }
+          ]
+        },
+        {
+          name: '商家管理',
+          path: '/shopList',
+          children: [
+            { name: '商家列表', path: '/shopList' },
+            { name: '商家分类', path: '/shopSort' },
+            { name: '编辑商家', path: '/shopEdit' }
+          ]
+        },
+        {
+          name: '食品管理',
+          path: '/foodList',
+          children: [
+            { name: '食品列表', path: '/foodList' },
+            { name: '食品分类', path: '/foodSort' },
+            { name: '编辑食品', path: '/foodEdit' }
+          ]
+        },
+        {
+          name: '订单管理',
+          path: '/orderList',
+          children: [{ name: '订单列表', path: '/orderList' }]
+        }
+      ]
+    }
   }
 }
 </script>
+
+<style scoped>
+.el-container {
+  height: 100%;
+}
+.el-header {
+  background-color: #373d41;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  font-size: 22px;
+}
+.el-aside {
+  background-color: #333744;
+}
+.el-aside .el-menu {
+  border-right: none;
+}
+</style>
