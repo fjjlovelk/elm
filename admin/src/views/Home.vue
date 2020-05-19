@@ -66,7 +66,7 @@ export default {
           icon: 'iconshetuan',
           children: [
             { name: '商家列表', path: '/shopList' },
-            { name: '商家分类', path: '/shopSort' },
+            { name: '商家分类', path: '/shopCategory' },
             { name: '编辑商家', path: '/shopEdit' }
           ]
         },
