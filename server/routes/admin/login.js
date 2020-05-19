@@ -6,7 +6,7 @@ const AdminUser = require('../../models/AdminUser')
 
 router.post('/', async (req, res) => {
   const { username, password } = req.body
-  const user = await AdminUser.findOne({ username })
+  const user = await AdminUser.findOne({ username }).select('+password')
   let token = null
   if (!user) {
     const newUser = await AdminUser.create(req.body)

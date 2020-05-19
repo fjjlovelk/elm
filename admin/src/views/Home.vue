@@ -44,6 +44,14 @@ export default {
     return {
       navMenu: [
         {
+          name: '管理员',
+          path: '/adminList',
+          icon: 'iconadmin',
+          children: [
+            { name: '管理员列表', path: '/adminList' }
+          ]
+        },
+        {
           name: '用户管理',
           path: '/userList',
           icon: 'iconusers',
@@ -114,5 +122,8 @@ export default {
 }
 .iconfont {
   padding-right: 10px;
+}
+.el-main {
+  background-color: #eaedf1;
 }
 </style>
