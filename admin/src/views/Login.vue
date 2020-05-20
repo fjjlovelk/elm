@@ -4,12 +4,12 @@
       <img src="../assets/logo.png" />
       <el-form :model="loginForm" ref="loginRef" :rules="loginRule">
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" placeholder="用户名">
+          <el-input v-model.trim="loginForm.username" placeholder="用户名">
             <i slot="prefix" class="iconfont iconuser1"></i>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" type="password" placeholder="密码">
+          <el-input v-model.trim="loginForm.password" type="password" placeholder="密码">
             <i slot="prefix" class="iconfont iconwodemima"></i>
           </el-input>
         </el-form-item>

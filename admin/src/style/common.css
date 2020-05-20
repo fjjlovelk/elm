@@ -21,3 +21,12 @@
   padding: 0;
   height: 40px;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #606d71;
+  border-radius: 5px;
+}

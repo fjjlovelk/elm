@@ -1,14 +1,32 @@
 <template>
   <div>
     <base-layout>
-      <el-button type="primary" @click="addDialog = true">添加分类</el-button>
-      <el-table :data="categoryList" border>
+      <el-button type="primary" @click="cateDialog = true">添加一级分类</el-button>
+      <el-button type="primary" @click="subCateDialog = true">添加二级分类</el-button>
+      <el-table
+        :data="categoryList"
+        row-key="_id"
+        :tree-props="{children: 'children'}"
+        border
+        highlight-current-row
+        max-height="840px"
+      >
         <el-table-column type="index"></el-table-column>
         <el-table-column label="分类名称" prop="name"></el-table-column>
-        <el-table-column label="分类级别"></el-table-column>
+        <el-table-column label="分类级别">
+          <template #default="scope">
+            <el-tag v-if="scope.row.level === 1">一级</el-tag>
+            <el-tag v-else type="warning">二级</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="200px">
           <template #default="scope">
-            <el-button type="primary" size="mini" icon="el-icon-edit">编辑</el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              @click="editCategory(scope.row)"
+            >编辑</el-button>
             <el-button
               type="danger"
               size="mini"
@@ -19,13 +37,33 @@
         </el-table-column>
       </el-table>
     </base-layout>
-    <el-dialog title="添加分类" :visible="addDialog" @close="closeDialog">
-      <el-form :model="addForm" label-width="100px" ref="addRef" :rules="addRule">
+
+    <el-dialog
+      :title="cateId?'修改一级分类':'添加一级分类'"
+      :visible="cateDialog"
+      @close="closeCateDialog"
+      @closed="dialogClosed"
+    >
+      <el-form :model="cateForm" label-width="100px" ref="cateRef" :rules="cateRule">
         <el-form-item label="分类名称" prop="name">
-          <el-input v-model="addForm.name"></el-input>
+          <el-input v-model.trim="cateForm.name"></el-input>
         </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button type="primary" @click="saveCate">确定</el-button>
+        <el-button @click="cateDialog = false">取消</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      :title="cateId?'修改二级分类':'添加二级分类'"
+      :visible="subCateDialog"
+      @close="closeSubCateDialog"
+      @closed="dialogClosed"
+    >
+      <el-form :model="subCateForm" label-width="100px" ref="subCateRef" :rules="subCateRule">
         <el-form-item label="父级分类" prop="parent">
-          <el-select v-model="addForm.parent" placeholder="如果不选择父级分类，则该分类为一级分类">
+          <el-select v-model="subCateForm.parent">
             <el-option
               v-for="item in categoryList"
               :key="item._id"
@@ -34,10 +72,13 @@
             ></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="分类名称" prop="name">
+          <el-input v-model.trim="subCateForm.name"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer">
-        <el-button type="primary" @click="saveCategory">确定</el-button>
-        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="saveSubCate">确定</el-button>
+        <el-button @click="closeSubCateDialog">取消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -47,50 +88,129 @@
 export default {
   data() {
     return {
-      addDialog: false,
+      cateDialog: false,
+      subCateDialog: false,
       categoryList: [],
-      addForm: {
+      cateForm: {
+        name: ''
+      },
+      cateRule: {
+        name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }]
+      },
+      subCateForm: {
         name: '',
         parent: null
       },
-      addRule: {
-        name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }]
-      }
+      subCateRule: {
+        name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }],
+        parent: [
+          { required: true, message: '请选择父级分类', trigger: 'change' }
+        ]
+      },
+      cateId: null
     }
   },
   created() {
     this.getCategoryList()
   },
   methods: {
-    closeDialog() {
-      this.addDialog = false
-      this.$refs.addRef.resetFields()
+    // 关闭一级分类弹框
+    closeCateDialog() {
+      this.cateDialog = false
+      this.$refs.cateRef.resetFields()
+      Object.assign(this.cateForm, this.$options.data().cateForm)
     },
-
+    // 关闭二级分类弹框
+    closeSubCateDialog() {
+      this.subCateDialog = false
+      this.$refs.subCateRef.resetFields()
+      Object.assign(this.subCateForm, this.$options.data().subCateForm)
+    },
+    dialogClosed() {
+      this.cateId = null
+    },
+    // 获取分类列表
     async getCategoryList() {
       const { data: res } = await this.$http.get('admin/shops/category')
       this.categoryList = res.data
-      console.log(res)
     },
-
-    async saveCategory() {
-      const { data: res } = await this.$http.post(
-        'admin/shops/category',
-        this.addForm
-      )
-      this.getCategoryList()
-      this.closeDialog()
+    // 确定添加/修改一级分类
+    saveCate() {
+      this.$refs.cateRef.validate(async valid => {
+        if (!valid) return false
+        if (this.cateId) {
+          const { data: res } = await this.$http.put(
+            `admin/shops/category/${this.cateId}`,
+            this.cateForm
+          )
+          this.$message.success(res.meta.message)
+        } else {
+          const { data: res } = await this.$http.post(
+            'admin/shops/category',
+            this.cateForm
+          )
+          this.$message.success(res.meta.message)
+        }
+        this.getCategoryList()
+        this.closeCateDialog()
+      })
     },
-
+    // 确定添加/修改二级分类
+    saveSubCate() {
+      this.$refs.subCateRef.validate(async valid => {
+        if (!valid) return false
+        if(this.cateId) {
+          const { data: res } = await this.$http.put(
+            `admin/shops/subCategory/${this.cateId}`,
+            this.subCateForm
+          )
+          this.$message.success(res.meta.message)
+        }else {
+          const { data: res } = await this.$http.post(
+            'admin/shops/subCategory',
+            this.subCateForm
+          )
+          this.$message.success(res.meta.message)
+        }
+        this.getCategoryList()
+        this.closeSubCateDialog()
+      })
+    },
+    // 编辑按钮
+    editCategory(row) {
+      this.cateId = row._id
+      if (row.level === 1) {
+        Object.assign(this.cateForm, row)
+        this.cateDialog = true
+      } else {
+        Object.assign(this.subCateForm, row)
+        this.subCateDialog = true
+      }
+    },
+    // 确定删除一级分类、二级分类
     delCategory(row) {
-      this.$confirm(`确定要删除分类 ${row.name} 吗`, '提示', {
+      if (row.level === 1) {
+        this.confirmDel(
+          `确定删除一级分类 ${row.name} 及其所有子分类吗`,
+          `admin/shops/category/${row._id}`
+        )
+      } else {
+        this.confirmDel(
+          `确定删除二级分类 ${row.name} 吗`,
+          `admin/shops/subCategory/${row._id}`
+        )
+      }
+    },
+    // 从两个删除中抽离出来的公共方法
+    confirmDel(tip, url) {
+      this.$confirm(tip, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(async () => {
-          await this.$http.delete(`admin/shops/category/${row._id}`)
-          this.$message.success('删除分类成功')
+          const { data: res } = await this.$http.delete(url)
+          this.$message.success(res.meta.message)
           this.getCategoryList()
         })
         .catch(() => {})
@@ -102,8 +222,5 @@ export default {
 <style scoped>
 .el-table {
   margin-top: 15px;
-}
-.el-select {
-  width: 100%;
 }
 </style>
