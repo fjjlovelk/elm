@@ -9,7 +9,7 @@
         :tree-props="{children: 'children'}"
         border
         highlight-current-row
-        max-height="840px"
+        max-height="640px"
       >
         <el-table-column type="index"></el-table-column>
         <el-table-column label="分类名称" prop="name"></el-table-column>
