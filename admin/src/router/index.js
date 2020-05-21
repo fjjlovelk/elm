@@ -51,6 +51,11 @@ const routes = [
         component: () => import('../views/shop/ShopEdit.vue')
       },
       {
+        path: '/shopEdit/:id',
+        component: () => import('../views/shop/ShopEdit.vue'),
+        props: true
+      },
+      {
         path: '/foodList',
         name: 'FoodList',
         component: () => import('../views/food/FoodList.vue')

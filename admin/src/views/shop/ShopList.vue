@@ -1,6 +1,16 @@
 <template>
   <div>
     <base-layout>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-input v-model="queryForm.query" placeholder="输入商家名称进行搜索">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
+        </el-col>
+        <el-col :span="10">
+          <el-button type="primary">添加商家</el-button>
+        </el-col>
+      </el-row>
       <el-table :data="shopList" max-height="840px" border>
         <el-table-column type="expand">
           <template #default="scope">
@@ -47,7 +57,12 @@
         <el-table-column label="店铺介绍" prop="description"></el-table-column>
         <el-table-column label="操作" width="300px">
           <template #default="scope">
-            <el-button type="primary" size="mini" icon="el-icon-edit">编辑</el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              @click="editShop(scope.row._id)"
+            >编辑</el-button>
             <el-button type="primary" size="mini" icon="el-icon-plus">添加食品</el-button>
             <el-button
               type="danger"
@@ -78,6 +93,7 @@ export default {
       shopList: [],
       total: null,
       queryForm: {
+        query: '',
         pageNum: 1,
         pageSize: 20
       },
@@ -101,22 +117,32 @@ export default {
     changePageSize(newPageSize) {
       this.queryForm.pageSize = newPageSize
     },
+    editShop(id) {
+      this.$router.push(`/shopEdit/${id}`)
+    },
     delShop(row) {
       this.$confirm(`确定删除商家 ${row.name} 吗`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
-        const { data: res } = await this.$http.delete(`admin/shops/${row._id}`)
-        this.$message.success(res.meta.message)
-        this.getShopList()
-      }).catch(() => {})
+      })
+        .then(async () => {
+          const { data: res } = await this.$http.delete(
+            `admin/shops/${row._id}`
+          )
+          this.$message.success(res.meta.message)
+          this.getShopList()
+        })
+        .catch(() => {})
     }
   }
 }
 </script>
 
 <style scoped>
+.el-table {
+  margin-top: 15px;
+}
 .el-form /deep/ .el-form-item__label {
   color: #99a9bf;
 }

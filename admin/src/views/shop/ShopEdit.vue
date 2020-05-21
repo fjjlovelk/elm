@@ -125,7 +125,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
+        <el-form-item v-if="id">
+          <el-button type="primary" @click="submit">确定修改</el-button>
+          <el-button @click="$router.push('/shopList')">取消修改</el-button>
+        </el-form-item>
+        <el-form-item v-else>
           <el-button type="primary" @click="submit">立即创建</el-button>
         </el-form-item>
       </el-form>
@@ -135,6 +139,9 @@
 
 <script>
 export default {
+  props: {
+    id: { type: String }
+  },
   data() {
     var checkTelphone = (rule, val, cb) => {
       const reg = /^1[3456789]\d{9}$/
@@ -180,12 +187,19 @@ export default {
   },
   created() {
     this.getCategoryList()
+    this.id && this.getShopDetail()
   },
   methods: {
     // 获取分类列表
     async getCategoryList() {
       const { data: res } = await this.$http.get('admin/shops/category')
       this.categoryList = res.data
+    },
+    // 获取商家详情
+    async getShopDetail() {
+      const { data: res } = await this.$http.get(`/admin/shops/${this.id}`)
+      res.data.category = [res.data.category.parent._id, res.data.category._id]
+      this.shopForm = res.data
     },
     handleShopImg() {},
     submit() {
@@ -194,11 +208,19 @@ export default {
         if (this.shopForm.category) {
           this.shopForm.category = this.shopForm.category[1]
         }
-        const { data: res } = await this.$http.post(
-          'admin/shops',
-          this.shopForm
-        )
-        this.$message.success(res.meta.message)
+        if (this.id) {
+          const { data: res } = await this.$http.put(
+            `admin/shops/${this.id}`,
+            this.shopForm
+          )
+          this.$message.success(res.meta.message)
+        } else {
+          const { data: res } = await this.$http.post(
+            'admin/shops',
+            this.shopForm
+          )
+          this.$message.success(res.meta.message)
+        }
         this.$router.push('/shopList')
       })
     }
