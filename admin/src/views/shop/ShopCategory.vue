@@ -9,7 +9,7 @@
         :tree-props="{children: 'children'}"
         border
         highlight-current-row
-        max-height="640px"
+        max-height="840px"
       >
         <el-table-column type="index"></el-table-column>
         <el-table-column label="分类名称" prop="name"></el-table-column>
@@ -107,7 +107,7 @@ export default {
           { required: true, message: '请选择父级分类', trigger: 'change' }
         ]
       },
-      cateId: null
+      cateId: null,
     }
   },
   created() {
@@ -159,13 +159,13 @@ export default {
     saveSubCate() {
       this.$refs.subCateRef.validate(async valid => {
         if (!valid) return false
-        if(this.cateId) {
+        if (this.cateId) {
           const { data: res } = await this.$http.put(
             `admin/shops/subCategory/${this.cateId}`,
             this.subCateForm
           )
           this.$message.success(res.meta.message)
-        }else {
+        } else {
           const { data: res } = await this.$http.post(
             'admin/shops/subCategory',
             this.subCateForm

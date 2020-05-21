@@ -1,22 +1,22 @@
 <template>
   <div>
     <base-layout>
-      <el-form :model="shopForm" label-width="100px">
+      <el-form :model="shopForm" ref="shopRef" :rules="shopRule" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="店铺名称">
+            <el-form-item label="店铺名称" prop="name">
               <el-input v-model="shopForm.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="联系电话">
-              <el-input v-model="shopForm.telphone"></el-input>
+            <el-form-item label="联系电话" prop="telphone">
+              <el-input v-model.number="shopForm.telphone"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="详细地址">
+            <el-form-item label="详细地址" prop="address">
               <el-input v-model="shopForm.address"></el-input>
             </el-form-item>
           </el-col>
@@ -54,9 +54,11 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="店铺分类">
-              <el-select v-model="shopForm.category">
-                <el-option v-for="item in 5" :key="item" :value="item"></el-option>
-              </el-select>
+              <el-cascader
+                v-model="shopForm.category"
+                :options="categoryList"
+                :props="{ expandTrigger: 'hover', value: '_id', label: 'name' }"
+              ></el-cascader>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -124,7 +126,7 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="primary">立即创建</el-button>
+          <el-button type="primary" @click="submit">立即创建</el-button>
         </el-form-item>
       </el-form>
     </base-layout>
@@ -134,14 +136,23 @@
 <script>
 export default {
   data() {
+    var checkTelphone = (rule, val, cb) => {
+      const reg = /^1[3456789]\d{9}$/
+      if (reg.test(val)) return cb()
+      cb(new Error('请输入正确的手机号'))
+    }
     return {
       shopForm: {
         name: '',
-        address: '',
         telphone: '',
+        address: '',
         description: '',
         slogan: '', // 标语
-        category: '',
+        open_time: '',
+        close_time: '',
+        category: null,
+        delivery_fee: 0, // 配送费
+        starting_price: 0, // 起送价
         feature: {
           is_brand: false,
           is_delivery: false,
@@ -150,19 +161,46 @@ export default {
           is_ontime: false,
           is_bill: false
         },
-        delivery_fee: '', // 配送费
-        starting_price: '', // 起送价
-        open_time: '',
-        close_time: '',
         shop_img: '', // 店铺图片
         license_img: '', // 营业执照
         service_img: '' // 餐饮服务许可证
+      },
+      categoryList: [],
+      shopRule: {
+        name: [{ required: true, message: '请填写商家名称', trigger: 'blur' }],
+        telphone: [
+          { required: true, message: '请填写联系电话', trigger: 'blur' },
+          { validator: checkTelphone, trigger: 'blur' }
+        ],
+        address: [
+          { required: true, message: '请填写详细地址', trigger: 'blur' }
+        ]
       }
     }
   },
+  created() {
+    this.getCategoryList()
+  },
   methods: {
-    handleShopImg() {
-
+    // 获取分类列表
+    async getCategoryList() {
+      const { data: res } = await this.$http.get('admin/shops/category')
+      this.categoryList = res.data
+    },
+    handleShopImg() {},
+    submit() {
+      this.$refs.shopRef.validate(async valid => {
+        if (!valid) return false
+        if (this.shopForm.category) {
+          this.shopForm.category = this.shopForm.category[1]
+        }
+        const { data: res } = await this.$http.post(
+          'admin/shops',
+          this.shopForm
+        )
+        this.$message.success(res.meta.message)
+        this.$router.push('/shopList')
+      })
     }
   }
 }

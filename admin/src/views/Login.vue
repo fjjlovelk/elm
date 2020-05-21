@@ -50,11 +50,18 @@ export default {
     login() {
       this.$refs.loginRef.validate(async valid => {
         if (!valid) return false
-        const { data: res } = await this.$http.post('admin/login', this.loginForm)
-        if (res.meta.status === 200) {
-          this.$message.success(res.meta.message)
-          sessionStorage.setItem('token', res.data)
-          this.$router.push('/')
+        try {
+          const { data: res } = await this.$http.post(
+            'admin/login',
+            this.loginForm
+          )
+          if (res.meta.status === 200) {
+            this.$message.success(res.meta.message)
+            sessionStorage.setItem('token', res.data)
+            this.$router.push('/')
+          }
+        } catch (err) {
+          console.log(err)
         }
       })
     }
