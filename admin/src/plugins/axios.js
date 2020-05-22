@@ -18,6 +18,9 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(res => {
   return res
 }, err => {
+  if(!err.response) {
+    Vue.prototype.$message.error('无法连接服务器')
+  }
   if(err.response.data.meta){
     Vue.prototype.$message.error(err.response.data.meta.message)
   }

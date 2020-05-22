@@ -92,6 +92,7 @@ router.get('/', async (req, res) => {
     const { query, pageNum, pageSize } = req.query
     const total = await Shop.countDocuments()
     const model = await Shop.find()
+      .where({ name: new RegExp(query) })
       .populate({ path: 'category', populate: { path: 'parent', select: 'name' } })
       .skip((parseInt(pageNum) - 1) * parseInt(pageSize))
       .limit(parseInt(pageSize))

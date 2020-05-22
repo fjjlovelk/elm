@@ -4,11 +4,11 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-input v-model="queryForm.query" placeholder="输入商家名称进行搜索">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="searchShop"></el-button>
           </el-input>
         </el-col>
         <el-col :span="10">
-          <el-button type="primary">添加商家</el-button>
+          <el-button type="primary" @click="$router.push('/shopEdit')">添加商家</el-button>
         </el-col>
       </el-row>
       <el-table :data="shopList" max-height="840px" border>
@@ -113,9 +113,16 @@ export default {
     },
     changeCurrentPage(newCurrentPage) {
       this.queryForm.pageNum = newCurrentPage
+      this.getShopList()
     },
     changePageSize(newPageSize) {
       this.queryForm.pageSize = newPageSize
+      this.getShopList()
+    },
+    searchShop() {
+      this.queryForm.pageNum = 1
+      this.queryForm.pageSize = 20
+      this.getShopList()
     },
     editShop(id) {
       this.$router.push(`/shopEdit/${id}`)
