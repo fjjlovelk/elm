@@ -71,13 +71,13 @@ export default {
           ]
         },
         {
-          name: '食品管理',
-          path: '/foodList',
+          name: '商品管理',
+          path: '/goodsList',
           icon: 'iconfood',
           children: [
-            { name: '食品列表', path: '/foodList' },
-            { name: '食品分类', path: '/foodSort' },
-            { name: '编辑食品', path: '/foodEdit' }
+            { name: '商品列表', path: '/goodsList' },
+            { name: '商品分类', path: '/goodsSort' },
+            { name: '编辑商品', path: '/goodsEdit' }
           ]
         },
         {

@@ -56,19 +56,19 @@ const routes = [
         props: true
       },
       {
-        path: '/foodList',
-        name: 'FoodList',
-        component: () => import('../views/food/FoodList.vue')
+        path: '/goodsList',
+        name: 'GoodsList',
+        component: () => import('../views/goods/GoodsList.vue')
       },
       {
-        path: '/foodSort',
-        name: 'FoodSort',
-        component: () => import('../views/food/FoodSort.vue')
+        path: '/goodsSort',
+        name: 'GoodsSort',
+        component: () => import('../views/goods/GoodsSort.vue')
       },
       {
-        path: '/FoodEdit',
-        name: 'FoodEdit',
-        component: () => import('../views/food/FoodEdit.vue')
+        path: '/goodsEdit',
+        name: 'GoodsEdit',
+        component: () => import('../views/goods/GoodsEdit.vue')
       },
       {
         path: '/orderList',
