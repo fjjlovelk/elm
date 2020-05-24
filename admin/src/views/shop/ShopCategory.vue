@@ -11,7 +11,6 @@
         highlight-current-row
         max-height="840px"
       >
-        <el-table-column type="index"></el-table-column>
         <el-table-column label="分类名称" prop="name"></el-table-column>
         <el-table-column label="分类级别">
           <template #default="scope">
@@ -78,7 +77,7 @@
       </el-form>
       <div slot="footer">
         <el-button type="primary" @click="saveSubCate">确定</el-button>
-        <el-button @click="closeSubCateDialog">取消</el-button>
+        <el-button @click="subCateDialog = false">取消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -152,7 +151,7 @@ export default {
           this.$message.success(res.meta.message)
         }
         this.getCategoryList()
-        this.closeCateDialog()
+        this.cateDialog = false
       })
     },
     // 确定添加/修改二级分类
@@ -173,7 +172,7 @@ export default {
           this.$message.success(res.meta.message)
         }
         this.getCategoryList()
-        this.closeSubCateDialog()
+        this.subCateDialog = false
       })
     },
     // 编辑按钮

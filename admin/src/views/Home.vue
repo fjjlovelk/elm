@@ -76,7 +76,7 @@ export default {
           icon: 'iconfood',
           children: [
             { name: '商品列表', path: '/goodsList' },
-            { name: '商品分类', path: '/goodsSort' },
+            { name: '商品分类', path: '/goodsCategory' },
             { name: '编辑商品', path: '/goodsEdit' }
           ]
         },
