@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>{{menu}}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{subMenu}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{$route.meta[0]}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{$route.meta[1]}}</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <slot></slot>
@@ -13,14 +13,6 @@
 
 <script>
 export default {
-  computed: {
-    menu() {
-      return sessionStorage.getItem('menu')
-    },
-    subMenu() {
-      return sessionStorage.getItem('subMenu')
-    }
-  }
 }
 </script>
 

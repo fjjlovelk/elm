@@ -63,7 +63,12 @@
               icon="el-icon-edit"
               @click="editShop(scope.row._id)"
             >编辑</el-button>
-            <el-button type="primary" size="mini" icon="el-icon-plus">添加食品</el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-plus"
+              @click="$router.push(`/goodsEdit/${scope.row._id}`)"
+            >添加商品</el-button>
             <el-button
               type="danger"
               size="mini"

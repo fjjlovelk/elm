@@ -23,7 +23,6 @@
               v-for="subMenu in menu.children"
               :index="subMenu.path"
               :key="subMenu.path"
-              @click="saveMenu(menu.name, subMenu.name)"
             >
               <i class="el-icon-menu"></i>
               {{subMenu.name}}
@@ -47,9 +46,7 @@ export default {
           name: '管理员',
           path: '/adminList',
           icon: 'iconadmin',
-          children: [
-            { name: '管理员列表', path: '/adminList' }
-          ]
+          children: [{ name: '管理员列表', path: '/adminList' }]
         },
         {
           name: '用户管理',
@@ -76,8 +73,7 @@ export default {
           icon: 'iconfood',
           children: [
             { name: '商品列表', path: '/goodsList' },
-            { name: '商品分类', path: '/goodsCategory' },
-            { name: '编辑商品', path: '/goodsEdit' }
+            { name: '商品分类', path: '/goodsCategory' }
           ]
         },
         {
@@ -93,10 +89,6 @@ export default {
     logout() {
       sessionStorage.removeItem('token')
       this.$router.push('/login')
-    },
-    saveMenu(menu, subMenu) {
-      sessionStorage.setItem('menu', menu)
-      sessionStorage.setItem('subMenu', subMenu)
     }
   }
 }
