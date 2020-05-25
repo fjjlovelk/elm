@@ -5,7 +5,7 @@
         <el-form-item label="当前店铺">
           <strong>{{shopName}}</strong>
         </el-form-item>
-        <el-form-item label="商品名称">
+        <el-form-item label="商品名称" prop="name">
           <el-input v-model="goodsForm.name"></el-input>
         </el-form-item>
         <el-form-item label="商品详情">
@@ -72,9 +72,7 @@ export default {
       },
       goodsCateList: [],
       goodsRule: {
-        name: [
-          { required: true, message: '请填写商品名称', trigger: 'blur' }
-        ]
+        name: [{ required: true, message: '请填写商品名称', trigger: 'blur' }]
       },
       shopName: ''
     }
@@ -84,28 +82,26 @@ export default {
     this.getShop()
   },
   methods: {
-    handleAvatarSuccess() {
-
-    },
+    handleAvatarSuccess() {},
     async getGoodsCate() {
-      try {
-        const { data: res } = await this.$http.get('admin/goods/category')
-        this.goodsCateList = res.data
-      } catch (err) {
-        this.$message.error(err.message)
-      }
+      const { data: res } = await this.$http.get('admin/goods/category')
+      this.goodsCateList = res.data
     },
     async getShop() {
-      try {
-        const { data: res } = await this.$http.get(`admin/shops/${this.id}`)
-        this.shopName = res.data.name
-      } catch (err) {
-        this.$message.error(err.message)
-      }
+      const { data: res } = await this.$http.get(`admin/shops/${this.id}`)
+      this.shopName = res.data.name
     },
     save() {
-      this.goodsForm.shop = this.id
-      console.log(this.goodsForm)
+      this.$refs.goodsRef.validate(async valid => {
+        if (!valid) return false
+        this.goodsForm.shop = this.id
+        const { data: res } = await this.$http.post(
+          'admin/goods',
+          this.goodsForm
+        )
+        this.$router.push('/goodsList')
+        this.$message.success(res.meta.message)
+      })
     }
   }
 }

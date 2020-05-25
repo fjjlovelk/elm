@@ -9,3 +9,5 @@ const schema = new mongoose.Schema({
   packing_fee: { type: Number },
   price: { type: Number }
 })
+
+module.exports = mongoose.model('Goods', schema)

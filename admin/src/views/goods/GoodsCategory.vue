@@ -51,12 +51,8 @@ export default {
   },
   methods: {
     async getCateList() {
-      try {
-        const { data: res } = await this.$http.get('admin/goods/category')
-        this.cateList = res.data
-      } catch (err) {
-        this.$message.error(err.message)
-      }
+      const { data: res } = await this.$http.get('admin/goods/category')
+      this.cateList = res.data
     },
     closeDialog() {
       this.cateDialog = false
@@ -65,17 +61,13 @@ export default {
     saveCate() {
       this.$refs.goodsCateRef.validate(async valid => {
         if (!valid) return false
-        try {
-          const { data: res } = await this.$http.post(
-            'admin/goods/category',
-            this.cateForm
-          )
-          this.cateDialog = false
-          this.$message.success(res.meta.message)
-          this.getCateList()
-        } catch (err) {
-          this.$message.error(err.message)
-        }
+        const { data: res } = await this.$http.post(
+          'admin/goods/category',
+          this.cateForm
+        )
+        this.cateDialog = false
+        this.$message.success(res.meta.message)
+        this.getCateList()
       })
     },
     delCate(row) {
@@ -83,15 +75,15 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async () => {
-        try {
-          const { data: res } = await this.$http.delete(`admin/goods/category/${row._id}`)
+      })
+        .then(async () => {
+          const { data: res } = await this.$http.delete(
+            `admin/goods/category/${row._id}`
+          )
           this.$message.success(res.meta.message)
           this.getCateList()
-        } catch (err) {
-          this.$message.error(err.message)
-        }
-      }).catch(() => {});
+        })
+        .catch(() => {})
     }
   }
 }
