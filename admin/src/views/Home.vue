@@ -31,7 +31,9 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <router-view :key="$route.path" />
+        <keep-alive>
+          <router-view :key="$route.path" />
+        </keep-alive>
       </el-main>
     </el-container>
   </el-container>
