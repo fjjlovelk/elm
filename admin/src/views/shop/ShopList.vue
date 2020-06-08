@@ -67,7 +67,7 @@
               type="primary"
               size="mini"
               icon="el-icon-plus"
-              @click="$router.push(`/goodsEdit/${scope.row._id}`)"
+              @click="addGoods(scope.row._id)"
             >添加商品</el-button>
             <el-button
               type="danger"
@@ -131,6 +131,9 @@ export default {
     },
     editShop(id) {
       this.$router.push(`/shopEdit/${id}`)
+    },
+    addGoods(shopId){
+      this.$router.push(`/goodsEdit/${shopId}`)
     },
     delShop(row) {
       this.$confirm(`确定删除商家 ${row.name} 吗`, '提示', {

@@ -46,7 +46,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="save">保存</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </base-layout>
@@ -74,14 +74,31 @@ export default {
       goodsRule: {
         name: [{ required: true, message: '请填写商品名称', trigger: 'blur' }]
       },
-      shopName: ''
+      shopName: '',
+      flag: false
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.path === '/goodsList') {
+        vm.flag = true
+        vm.getGoodsDetail()
+      }else {
+        vm.flag = true
+        vm.getShop()
+      }
+    })
   },
   created() {
     this.getGoodsCate()
-    this.getShop()
   },
   methods: {
+    async getGoodsDetail() {
+      const { data: res } = await this.$http.get(`admin/goods/${this.id}`)
+      this.goodsForm = res.data
+      this.goodsForm.category = res.data.category._id
+      this.shopName = res.data.shop.name
+    },
     handleAvatarSuccess() {},
     async getGoodsCate() {
       const { data: res } = await this.$http.get('admin/goods/category')
@@ -94,13 +111,21 @@ export default {
     save() {
       this.$refs.goodsRef.validate(async valid => {
         if (!valid) return false
-        this.goodsForm.shop = this.id
-        const { data: res } = await this.$http.post(
-          'admin/goods',
-          this.goodsForm
-        )
+        if (this.flag) {
+          const { data: res } = await this.$http.put(
+            `admin/goods/${this.id}`,
+            this.goodsForm
+          )
+          this.$message.success(res.meta.message)
+        } else {
+          this.goodsForm.shop = this.shopId
+          const { data: res } = await this.$http.post(
+            'admin/goods',
+            this.goodsForm
+          )
+          this.$message.success(res.meta.message)
+        }
         this.$router.push('/goodsList')
-        this.$message.success(res.meta.message)
       })
     }
   }

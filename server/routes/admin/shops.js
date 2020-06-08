@@ -88,8 +88,8 @@ router.put('/subCategory/:id', async (req, res) => {
 
 // 获取商家
 router.get('/', async (req, res) => {
+  const { query, pageNum, pageSize } = req.query
   try {
-    const { query, pageNum, pageSize } = req.query
     const total = await Shop.countDocuments()
     const model = await Shop.find()
       .where({ name: new RegExp(query) })
