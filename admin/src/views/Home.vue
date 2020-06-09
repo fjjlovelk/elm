@@ -32,8 +32,9 @@
       </el-aside>
       <el-main>
         <keep-alive>
-          <router-view :key="$route.path" />
+          <router-view v-if="$route.meta.keepAlive" :key="$route.path" />
         </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive" :key="$route.path" />
       </el-main>
     </el-container>
   </el-container>

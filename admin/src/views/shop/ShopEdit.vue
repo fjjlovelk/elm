@@ -90,8 +90,11 @@
               <el-upload
                 class="avatar-uploader"
                 :show-file-list="false"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-success="handleShopImg"
+                :action="uploadURL"
+                :headers="headers"
+                :on-success="res => {
+                  this.shopForm.shop_img = res.url
+                }"
               >
                 <img v-if="shopForm.shop_img" :src="shopForm.shop_img" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -103,8 +106,11 @@
               <el-upload
                 class="avatar-uploader"
                 :show-file-list="false"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-success="handleShopImg"
+                :action="uploadURL"
+                :headers="headers"
+                :on-success="res => {
+                  this.shopForm.license_img = res.url
+                }"
               >
                 <img v-if="shopForm.license_img" :src="shopForm.license_img" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -116,8 +122,11 @@
               <el-upload
                 class="avatar-uploader"
                 :show-file-list="false"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-success="handleShopImg"
+                :action="uploadURL"
+                :headers="headers"
+                :on-success="res => {
+                  this.shopForm.service_img = res.url
+                }"
               >
                 <img v-if="shopForm.service_img" :src="shopForm.service_img" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -138,6 +147,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     id: { type: String }
@@ -185,6 +195,12 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      uploadURL: state => state.uploadURL,
+      headers: state => state.headers
+    })
+  },
   created() {
     this.getCategoryList()
     this.id && this.getShopDetail()
@@ -198,10 +214,9 @@ export default {
     // 获取商家详情
     async getShopDetail() {
       const { data: res } = await this.$http.get(`/admin/shops/${this.id}`)
-      res.data.category = [res.data.category.parent._id, res.data.category._id]
       this.shopForm = res.data
+      this.shopForm.category = [res.data.category.parent._id, res.data.category._id]
     },
-    handleShopImg() {},
     submit() {
       this.$refs.shopRef.validate(async valid => {
         if (!valid) return false

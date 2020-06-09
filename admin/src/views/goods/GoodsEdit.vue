@@ -14,9 +14,12 @@
         <el-form-item label="上传商品图片">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
+            :action="uploadURL"
+            :headers="headers"
+            :on-success="res => {
+              this.goodsForm.imgUrl = res.url
+            }"
           >
             <img v-if="goodsForm.imgUrl" :src="goodsForm.imgUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -54,6 +57,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     id: { type: String }
@@ -78,12 +82,18 @@ export default {
       flag: false
     }
   },
+  computed: {
+    ...mapState({
+      uploadURL: state => state.uploadURL,
+      headers: state => state.headers
+    })
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.path === '/goodsList') {
         vm.flag = true
         vm.getGoodsDetail()
-      }else {
+      } else {
         vm.flag = true
         vm.getShop()
       }
