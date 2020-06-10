@@ -17,6 +17,12 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(res => {
   return res
 }, err => {
+  if(!err.response) {
+    Vue.prototype.$toast.fail('无法连接服务器')
+  }
+  if(err.response.data.meta){
+    Vue.prototype.$toast.fail(err.response.data.meta.message)
+  }
   return Promise.reject(err)
 })
 

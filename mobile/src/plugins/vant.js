@@ -18,7 +18,8 @@ import {
   GridItem,
   Swipe,
   SwipeItem,
-  Toast
+  Toast,
+  ActionSheet
 } from 'vant'
 
 Vue.use(Icon)
@@ -39,3 +40,4 @@ Vue.use(GridItem)
 Vue.use(Swipe)
 Vue.use(SwipeItem)
 Vue.use(Toast)
+Vue.use(ActionSheet)

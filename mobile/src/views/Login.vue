@@ -6,7 +6,7 @@
         v-model="form.username"
         label="用户名"
         placeholder="用户名"
-        :rules="[{ pattern: pattern1, message: '用户名在2~8个字符' }]"
+        :rules="[{ pattern: pattern1, message: '用户名在2~8个字符且只能包含汉字、英文、数字和_' }]"
       />
       <van-field
         v-model="form.password"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -30,16 +31,25 @@ export default {
         username: '',
         password: ''
       },
-      pattern1: /[\u4e00-\u9fa5_a-zA-Z0-9]{2,8}/,
+      pattern1: /^[\u4e00-\u9fa5_a-zA-Z0-9]{2,8}$/,
       pattern2: /\w{5,}/
     }
+  },
+  computed: {
+    ...mapState({
+      isLogin: state => state.isLogin
+    })
   },
   methods: {
     async login() {
       const { data: res } = await this.$http.post('mobile/login', this.form)
-      sessionStorage.setItem('token', res.data)
-      this.$toast.success(res.meta.message)
-      this.$router.push('/mine')
+      if (res.meta.status === 200) {
+        sessionStorage.setItem('token', res.data)
+        this.$toast.success(res.meta.message)
+        this.$store.commit('changeLoginState', { msg: true })
+        this.$store.commit('saveUsername', { msg: this.form.username })
+        this.$router.push('/mine')
+      }
     }
   }
 }
