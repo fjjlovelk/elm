@@ -63,7 +63,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="配送费">
-              <el-input-number v-model="shopForm.delivery_fee" :min="0"></el-input-number>
+              <el-input-number v-model="shopForm.delivery_fee" :min="0" :step="0.5"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="8">

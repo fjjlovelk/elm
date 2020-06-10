@@ -1,6 +1,25 @@
 import Vue from 'vue'
 import 'vant/lib/index.css'
-import { Icon, Button, Tabbar, TabbarItem, Cell, CellGroup, Col, Row, NavBar, Form, Field } from 'vant'
+import {
+  Icon,
+  Button,
+  Tabbar,
+  TabbarItem,
+  Cell,
+  CellGroup,
+  Col,
+  Row,
+  NavBar,
+  Form,
+  Field,
+  NoticeBar,
+  Search,
+  Grid,
+  GridItem,
+  Swipe,
+  SwipeItem,
+  Toast
+} from 'vant'
 
 Vue.use(Icon)
 Vue.use(Button)
@@ -13,3 +32,10 @@ Vue.use(Row)
 Vue.use(NavBar)
 Vue.use(Form)
 Vue.use(Field)
+Vue.use(NoticeBar)
+Vue.use(Search)
+Vue.use(Grid)
+Vue.use(GridItem)
+Vue.use(Swipe)
+Vue.use(SwipeItem)
+Vue.use(Toast)

@@ -44,6 +44,20 @@
       @closed="dialogClosed"
     >
       <el-form :model="cateForm" label-width="100px" ref="cateRef" :rules="cateRule">
+        <el-form-item label="图标" prop="icon">
+          <el-upload
+            class="avatar-uploader"
+            :show-file-list="false"
+            :action="uploadURL"
+            :headers="headers"
+            :on-success="res => {
+              this.cateForm.icon = res.url
+            }"
+          >
+            <img v-if="cateForm.icon" :src="cateForm.icon" class="avatar" />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
         <el-form-item label="分类名称" prop="name">
           <el-input v-model.trim="cateForm.name"></el-input>
         </el-form-item>
@@ -84,6 +98,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -91,9 +106,11 @@ export default {
       subCateDialog: false,
       categoryList: [],
       cateForm: {
+        icon: '',
         name: ''
       },
       cateRule: {
+        icon: [{ required: true }],
         name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }]
       },
       subCateForm: {
@@ -106,8 +123,14 @@ export default {
           { required: true, message: '请选择父级分类', trigger: 'change' }
         ]
       },
-      cateId: null,
+      cateId: null
     }
+  },
+  computed: {
+    ...mapState({
+      uploadURL: state => state.uploadURL,
+      headers: state => state.headers
+    })
   },
   created() {
     this.getCategoryList()

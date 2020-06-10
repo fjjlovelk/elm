@@ -6,7 +6,7 @@
         v-model="form.username"
         label="用户名"
         placeholder="用户名"
-        :rules="[{ pattern: pattern1, message: '用户名在2~6个字符' }]"
+        :rules="[{ pattern: pattern1, message: '用户名在2~8个字符' }]"
       />
       <van-field
         v-model="form.password"
@@ -30,13 +30,16 @@ export default {
         username: '',
         password: ''
       },
-      pattern1: /[\u4e00-\u9fa5_a-zA-Z0-9]{2,6}/,
+      pattern1: /[\u4e00-\u9fa5_a-zA-Z0-9]{2,8}/,
       pattern2: /\w{5,}/
     }
   },
   methods: {
-    login() {
-      console.log(this.form)
+    async login() {
+      const { data: res } = await this.$http.post('mobile/login', this.form)
+      sessionStorage.setItem('token', res.data)
+      this.$toast.success(res.meta.message)
+      this.$router.push('/mine')
     }
   }
 }

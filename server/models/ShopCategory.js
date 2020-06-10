@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const schemaOne = new mongoose.Schema({
+  icon: { type: String },
   name: { type: String },
   level: { type: Number, default: 1 }
 })
