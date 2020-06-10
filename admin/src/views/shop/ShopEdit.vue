@@ -208,12 +208,12 @@ export default {
   methods: {
     // 获取分类列表
     async getCategoryList() {
-      const { data: res } = await this.$http.get('admin/shops/category')
+      const { data: res } = await this.$http.get('shops/category')
       this.categoryList = res.data
     },
     // 获取商家详情
     async getShopDetail() {
-      const { data: res } = await this.$http.get(`/admin/shops/${this.id}`)
+      const { data: res } = await this.$http.get(`/shops/${this.id}`)
       this.shopForm = res.data
       this.shopForm.category = [res.data.category.parent._id, res.data.category._id]
     },
@@ -225,13 +225,13 @@ export default {
         }
         if (this.id) {
           const { data: res } = await this.$http.put(
-            `admin/shops/${this.id}`,
+            `shops/${this.id}`,
             this.shopForm
           )
           this.$message.success(res.meta.message)
         } else {
           const { data: res } = await this.$http.post(
-            'admin/shops',
+            'shops',
             this.shopForm
           )
           this.$message.success(res.meta.message)

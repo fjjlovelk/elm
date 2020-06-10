@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async login() {
-      const { data: res } = await this.$http.post('mobile/login', this.form)
+      const { data: res } = await this.$http.post('login', this.form)
       if (res.meta.status === 200) {
         sessionStorage.setItem('token', res.data)
         this.$toast.success(res.meta.message)

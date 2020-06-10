@@ -19,7 +19,9 @@ import {
   Swipe,
   SwipeItem,
   Toast,
-  ActionSheet
+  ActionSheet,
+  List,
+  Card
 } from 'vant'
 
 Vue.use(Icon)
@@ -41,3 +43,5 @@ Vue.use(Swipe)
 Vue.use(SwipeItem)
 Vue.use(Toast)
 Vue.use(ActionSheet)
+Vue.use(List)
+Vue.use(Card)

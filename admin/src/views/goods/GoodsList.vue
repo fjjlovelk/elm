@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     async getGoodsList() {
-      const { data: res } = await this.$http.get('admin/goods', {
+      const { data: res } = await this.$http.get('goods', {
         params: this.queryForm
       })
       this.total = res.data.total
@@ -125,7 +125,7 @@ export default {
       })
         .then(async () => {
           const { data: res } = await this.$http.delete(
-            `admin/goods/${row._id}`
+            `goods/${row._id}`
           )
           this.$message.success(res.meta.message)
           this.getGoodsList()

@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     async getCateList() {
-      const { data: res } = await this.$http.get('admin/goods/category')
+      const { data: res } = await this.$http.get('goods/category')
       this.cateList = res.data
     },
     closeDialog() {
@@ -62,7 +62,7 @@ export default {
       this.$refs.goodsCateRef.validate(async valid => {
         if (!valid) return false
         const { data: res } = await this.$http.post(
-          'admin/goods/category',
+          'goods/category',
           this.cateForm
         )
         this.cateDialog = false
@@ -78,7 +78,7 @@ export default {
       })
         .then(async () => {
           const { data: res } = await this.$http.delete(
-            `admin/goods/category/${row._id}`
+            `goods/category/${row._id}`
           )
           this.$message.success(res.meta.message)
           this.getCateList()

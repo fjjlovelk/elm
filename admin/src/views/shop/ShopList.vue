@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     async getShopList() {
-      const { data: res } = await this.$http.get('admin/shops', {
+      const { data: res } = await this.$http.get('shops', {
         params: this.queryForm
       })
       this.total = res.data.total
@@ -143,7 +143,7 @@ export default {
       })
         .then(async () => {
           const { data: res } = await this.$http.delete(
-            `admin/shops/${row._id}`
+            `shops/${row._id}`
           )
           this.$message.success(res.meta.message)
           this.getShopList()

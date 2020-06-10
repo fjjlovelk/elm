@@ -153,7 +153,7 @@ export default {
     },
     // 获取分类列表
     async getCategoryList() {
-      const { data: res } = await this.$http.get('admin/shops/category')
+      const { data: res } = await this.$http.get('shops/category')
       this.categoryList = res.data
     },
     // 确定添加/修改一级分类
@@ -162,13 +162,13 @@ export default {
         if (!valid) return false
         if (this.cateId) {
           const { data: res } = await this.$http.put(
-            `admin/shops/category/${this.cateId}`,
+            `shops/category/${this.cateId}`,
             this.cateForm
           )
           this.$message.success(res.meta.message)
         } else {
           const { data: res } = await this.$http.post(
-            'admin/shops/category',
+            'shops/category',
             this.cateForm
           )
           this.$message.success(res.meta.message)
@@ -183,13 +183,13 @@ export default {
         if (!valid) return false
         if (this.cateId) {
           const { data: res } = await this.$http.put(
-            `admin/shops/subCategory/${this.cateId}`,
+            `shops/subCategory/${this.cateId}`,
             this.subCateForm
           )
           this.$message.success(res.meta.message)
         } else {
           const { data: res } = await this.$http.post(
-            'admin/shops/subCategory',
+            'shops/subCategory',
             this.subCateForm
           )
           this.$message.success(res.meta.message)
@@ -214,12 +214,12 @@ export default {
       if (row.level === 1) {
         this.confirmDel(
           `确定删除一级分类 ${row.name} 及其所有子分类吗`,
-          `admin/shops/category/${row._id}`
+          `shops/category/${row._id}`
         )
       } else {
         this.confirmDel(
           `确定删除二级分类 ${row.name} 吗`,
-          `admin/shops/subCategory/${row._id}`
+          `shops/subCategory/${row._id}`
         )
       }
     },

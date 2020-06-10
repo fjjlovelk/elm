@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     async getAdminList() {
-      const { data: res } = await this.$http.get('admin/admins', {
+      const { data: res } = await this.$http.get('admins', {
         params: this.queryForm
       })
       this.adminList = res.data.data

@@ -104,18 +104,18 @@ export default {
   },
   methods: {
     async getGoodsDetail() {
-      const { data: res } = await this.$http.get(`admin/goods/${this.id}`)
+      const { data: res } = await this.$http.get(`goods/${this.id}`)
       this.goodsForm = res.data
       this.goodsForm.category = res.data.category._id
       this.shopName = res.data.shop.name
     },
     handleAvatarSuccess() {},
     async getGoodsCate() {
-      const { data: res } = await this.$http.get('admin/goods/category')
+      const { data: res } = await this.$http.get('goods/category')
       this.goodsCateList = res.data
     },
     async getShop() {
-      const { data: res } = await this.$http.get(`admin/shops/${this.id}`)
+      const { data: res } = await this.$http.get(`shops/${this.id}`)
       this.shopName = res.data.name
     },
     save() {
@@ -123,14 +123,14 @@ export default {
         if (!valid) return false
         if (this.flag) {
           const { data: res } = await this.$http.put(
-            `admin/goods/${this.id}`,
+            `goods/${this.id}`,
             this.goodsForm
           )
           this.$message.success(res.meta.message)
         } else {
           this.goodsForm.shop = this.shopId
           const { data: res } = await this.$http.post(
-            'admin/goods',
+            'goods',
             this.goodsForm
           )
           this.$message.success(res.meta.message)
