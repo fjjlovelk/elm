@@ -25,6 +25,11 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
+        <el-form-item label="添加商品分类">
+          <el-input v-model.trim="goodsCateForm.name">
+            <el-button slot="prepend" @click="addGoodsCate">确定</el-button>
+          </el-input>
+        </el-form-item>
         <el-form-item label="商品分类">
           <el-select v-model="goodsForm.category">
             <el-option
@@ -34,6 +39,11 @@
               :value="item._id"
             ></el-option>
           </el-select>
+          <el-button
+            type="text"
+            @click="delGoodsCate"
+            style="margin-left: 10px; color: red"
+          >点此删除选中分类</el-button>
         </el-form-item>
         <el-form-item label="商品特点">
           <el-select v-model="goodsForm.feature">
@@ -74,6 +84,10 @@ export default {
         packing_fee: 0,
         price: 0
       },
+      goodsCateForm: {
+        name: '',
+        shop: ''
+      },
       goodsCateList: [],
       goodsRule: {
         name: [{ required: true, message: '请填写商品名称', trigger: 'blur' }]
@@ -109,7 +123,6 @@ export default {
       this.goodsForm.category = res.data.category._id
       this.shopName = res.data.shop.name
     },
-    handleAvatarSuccess() {},
     async getGoodsCate() {
       const { data: res } = await this.$http.get('goods/category')
       this.goodsCateList = res.data
@@ -117,6 +130,40 @@ export default {
     async getShop() {
       const { data: res } = await this.$http.get(`shops/${this.id}`)
       this.shopName = res.data.name
+    },
+    // 添加商品分类
+    async addGoodsCate() {
+      if (this.goodsCateForm.name === '') return
+      this.goodsCateForm.shop = this.id
+      const { data: res } = await this.$http.post(
+        'goods/category',
+        this.goodsCateForm
+      )
+      if (res.meta.status === 201) {
+        this.$message.success(res.meta.message)
+        this.goodsCateForm.name = ''
+        this.getGoodsCate()
+      }
+    },
+    // 删除商品分类
+    delGoodsCate() {
+      if (this.goodsForm.category === '') return
+      this.$confirm('确定删除该商品分类吗', '提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          const { data: res } = await this.$http.delete(
+            `goods/category/${this.goodsForm.category}`
+          )
+          if (res.meta.status === 200) {
+            this.$message.success(res.meta.message)
+            this.goodsForm.category = ''
+            this.getGoodsCate()
+          }
+        })
+        .catch(() => {})
     },
     save() {
       this.$refs.goodsRef.validate(async valid => {
@@ -129,10 +176,7 @@ export default {
           this.$message.success(res.meta.message)
         } else {
           this.goodsForm.shop = this.shopId
-          const { data: res } = await this.$http.post(
-            'goods',
-            this.goodsForm
-          )
+          const { data: res } = await this.$http.post('goods', this.goodsForm)
           this.$message.success(res.meta.message)
         }
         this.$router.push('/goodsList')

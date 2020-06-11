@@ -1,16 +1,19 @@
 <template>
   <div>
-    <van-notice-bar color="#409EFF" background="#fff" left-icon="location">京都酒家</van-notice-bar>
-    <van-search
-      v-model="queryForm.query"
-      shape="round"
-      placeholder="请输入搜索关键词"
-      input-align="center"
-    />
+    <div class="top">
+      <van-notice-bar color="#409EFF" background="#fff" left-icon="location">京都酒家</van-notice-bar>
+      <van-search
+        v-model="queryForm.query"
+        shape="round"
+        placeholder="请输入搜索关键词"
+        input-align="center"
+        @search="onSearch"
+        @clear="onSearch"
+      />
+    </div>
     <van-grid :border="false">
       <van-grid-item
         v-for="item in shopCate"
-        @click="getShopSubCate(item._id)"
         :icon="item.icon"
         :text="item.name"
         :key="item._id"
@@ -23,6 +26,7 @@
         :desc="item.slogan"
         :title="item.name"
         :thumb="item.shop_img"
+        @click="selectShop(item._id)"
       >
         <template #tags>
           <span>起送 ￥{{item.starting_price}}</span>|
@@ -52,36 +56,52 @@ export default {
     this.getShopCate()
   },
   methods: {
+    // 获取商家一级分类
     async getShopCate() {
       const { data: res } = await this.$http.get('shops/category')
       if (res.meta.status === 200) {
         this.shopCate = res.data
       }
     },
-    async getShopSubCate(id) {
-      const { data: res } = await this.$http.get('shops/subCategory', {
-        params: { id }
-      })
-      console.log(res)
-    },
-    async onLoad() {
+    // 获取商家列表
+    async getShop() {
       const { data: res } = await this.$http.get('shops', {
         params: this.queryForm
       })
       if (res.meta.status === 200) {
-        this.shopList = res.data.data
+        this.queryForm.pageNum++
+        this.shopList.push(...res.data.data)
         this.loading = false
         if (this.shopList.length >= res.data.total) {
           this.finished = true
         }
       }
-      console.log(res)
+    },
+    // 搜索商家
+    onSearch() {
+      this.shopList = []
+      this.queryForm.pageNum = 1
+      this.getShop()
+    },
+    // 商家卡片加载
+    onLoad() {
+      this.getShop()
+    },
+    // 点击卡片进入商家
+    selectShop(id) {
+      this.$router.push(`/shop/${id}`)
     }
   }
 }
 </script>
 
 <style scoped>
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background-color: #fff;
+}
 .van-notice-bar {
   width: 50%;
   padding: 0;
@@ -90,6 +110,9 @@ export default {
 .van-search {
   padding: 0;
   margin: 10px 0;
+}
+.van-list {
+  padding-bottom: 50px;
 }
 .van-card__thumb {
   width: 75px;

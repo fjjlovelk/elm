@@ -93,15 +93,6 @@ const routes = [
         }
       },
       {
-        path: '/goodsCategory',
-        name: 'GoodsCategory',
-        component: () => import('../views/goods/GoodsCategory.vue'),
-        meta: {
-          keepAlive: true,
-          navName: ['商品管理', '商品分类']
-        }
-      },
-      {
         path: '/goodsEdit/:id',
         name: 'GoodsEdit',
         component: () => import('../views/goods/GoodsEdit.vue'),
