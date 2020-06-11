@@ -44,8 +44,8 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="商品名称" prop="name"></el-table-column>
-        <el-table-column label="商品介绍" prop="detail"></el-table-column>
+        <el-table-column label="商品名称" prop="name" min-width="30%"></el-table-column>
+        <el-table-column label="商品介绍" prop="detail" min-width="70%"></el-table-column>
         <el-table-column label="操作" width="300px">
           <template #default="scope">
             <el-button

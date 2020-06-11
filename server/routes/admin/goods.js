@@ -4,9 +4,9 @@ const GoodsCate = require('../../models/GoodsCategory')
 const Goods = require('../../models/Goods')
 
 // 获取、添加、删除 商品分类
-router.get('/category', async (req, res) => {
+router.get('/category/:id', async (req, res) => {
   try {
-    const model = await GoodsCate.find()
+    const model = await GoodsCate.find({ shop: req.params.id })
     res.sendResult(model, 200, '获取商品分类列表成功')
   } catch (err) {
     res.sendResult(err.message, 500, '服务器内部错误, ' + err.message)

@@ -108,7 +108,7 @@ export default {
         vm.flag = true
         vm.getGoodsDetail()
       } else {
-        vm.flag = true
+        vm.flag = false
         vm.getShop()
       }
     })
@@ -124,7 +124,7 @@ export default {
       this.shopName = res.data.shop.name
     },
     async getGoodsCate() {
-      const { data: res } = await this.$http.get('goods/category')
+      const { data: res } = await this.$http.get(`goods/category/${this.id}`)
       this.goodsCateList = res.data
     },
     async getShop() {
@@ -175,7 +175,7 @@ export default {
           )
           this.$message.success(res.meta.message)
         } else {
-          this.goodsForm.shop = this.shopId
+          this.goodsForm.shop = this.id
           const { data: res } = await this.$http.post('goods', this.goodsForm)
           this.$message.success(res.meta.message)
         }

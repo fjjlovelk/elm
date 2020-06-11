@@ -13,3 +13,8 @@
 .van-cell {
   padding: 10px 0;
 }
+.van-card__title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}

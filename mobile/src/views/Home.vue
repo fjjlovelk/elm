@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="top">
+  <div class="home">
+    <van-sticky>
       <van-notice-bar color="#409EFF" background="#fff" left-icon="location">京都酒家</van-notice-bar>
       <van-search
         v-model="queryForm.query"
@@ -10,20 +10,15 @@
         @search="onSearch"
         @clear="onSearch"
       />
-    </div>
+    </van-sticky>
     <van-grid :border="false">
-      <van-grid-item
-        v-for="item in shopCate"
-        :icon="item.icon"
-        :text="item.name"
-        :key="item._id"
-      />
+      <van-grid-item v-for="item in shopCate" :icon="item.icon" :text="item.name" :key="item._id" />
     </van-grid>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-card
         v-for="item in shopList"
         :key="item._id"
-        :desc="item.slogan"
+        :desc="item.description"
         :title="item.name"
         :thumb="item.shop_img"
         @click="selectShop(item._id)"
@@ -96,10 +91,9 @@ export default {
 </script>
 
 <style scoped>
-.top {
-  position: sticky;
-  top: 0;
-  z-index: 99;
+.home /deep/ .van-sticky--fixed {
+  left: 10px;
+  right: 10px;
   background-color: #fff;
 }
 .van-notice-bar {
@@ -117,9 +111,5 @@ export default {
 .van-card__thumb {
   width: 75px;
   height: 60px;
-}
-.van-card__title {
-  font-size: 16px;
-  font-weight: bold;
 }
 </style>

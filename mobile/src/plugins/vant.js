@@ -21,7 +21,13 @@ import {
   Toast,
   ActionSheet,
   List,
-  Card
+  Card,
+  Sticky,
+  Tab,
+  Tabs,
+  Sidebar,
+  SidebarItem,
+  SubmitBar
 } from 'vant'
 
 Vue.use(Icon)
@@ -45,3 +51,9 @@ Vue.use(Toast)
 Vue.use(ActionSheet)
 Vue.use(List)
 Vue.use(Card)
+Vue.use(Sticky)
+Vue.use(Tab)
+Vue.use(Tabs)
+Vue.use(Sidebar)
+Vue.use(SidebarItem)
+Vue.use(SubmitBar)
