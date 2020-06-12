@@ -11,11 +11,18 @@
     </div>
     <div class="container">
       <div v-for="item in goodsList" :key="item._id" class="goods-item">
-        <img :src="item.imgUrl">
+        <img :src="item.imgUrl" />
         <div class="goods-item-tip">
-          <h4>{{item.name}}</h4>
+          <h4 class="goods-item-name">{{item.name}}</h4>
           <div class="goods-item-detail">{{item.detail}}</div>
-          <span class="goods-item-price">￥{{item.price}}</span>
+          <div class="goods-item-price-btn">
+            <span class="goods-item-price">￥{{item.price}}</span>
+            <div class="goods-item-btn">
+              <i class="iconfont icon-jian"></i>
+              <span class="goods-item-num">1</span>
+              <i class="iconfont icon-tianjia"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -63,10 +70,13 @@ export default {
 <style scoped>
 .my-order {
   display: flex;
+  height: 100%;
 }
 .left-nav {
   width: 80px;
+  height: max-content;
   background-color: #f5f5f5;
+  margin-bottom: 70px;
 }
 .nav-item {
   width: 100%;
@@ -77,9 +87,6 @@ export default {
   font-size: 13px;
   color: #666;
 }
-.nav-item:last-child {
-  padding-bottom: 70px;
-}
 .nav-item-active {
   background-color: #fff;
 }
@@ -88,7 +95,6 @@ export default {
 }
 .goods-item {
   display: flex;
-  height: 75px;
   padding: 0 0 22px 5px;
 }
 .goods-item img {
@@ -97,6 +103,12 @@ export default {
 }
 .goods-item-tip {
   width: calc(100% - 75px);
+  position: relative;
+}
+.goods-item-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .goods-item-detail {
   font-size: 12px;
@@ -104,6 +116,23 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: 2px 0 0 2px;
+  padding: 2px 0 5px 2px;
+}
+.goods-item-price-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+}
+.goods-item-price {
+  font-size: 18px;
+  color: #fb4e44;
+}
+.goods-item-btn .iconfont {
+  font-size: 20px;
+  color: #409EFF;
+}
+.goods-item-num {
+  padding: 0 10px;
 }
 </style>

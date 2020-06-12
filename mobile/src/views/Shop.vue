@@ -9,20 +9,16 @@
       <van-tab title="评价">2</van-tab>
       <van-tab title="商家">3</van-tab>
     </van-tabs>
-
-    <van-submit-bar :price="price" button-text="去结算">
-      <div class="shop-car">
-        <van-icon name="cart-circle" size="60px" color="#fff" />
-      </div>
-    </van-submit-bar>
+    <my-submit-bar></my-submit-bar>
   </div>
 </template>
 
 <script>
 import MyOrder from '../components/MyOrder'
+import MySubmitBar from '../components/MySubmitBar'
 export default {
   components: {
-    MyOrder
+    MyOrder, MySubmitBar
   },
   props: {
     id: {
@@ -65,20 +61,5 @@ export default {
 .van-tabs /deep/ .van-hairline--top-bottom::after,
 .van-tabs /deep/ .van-hairline-unset--top-bottom::after {
   border-width: 0 0 1px;
-}
-.van-submit-bar {
-  background-color: #020825d4;
-}
-.van-submit-bar__text,
-.van-submit-bar__price {
-  color: #fff;
-}
-.van-submit-bar__button--danger {
-  background: #409eff;
-}
-.shop-car {
-  margin-bottom: 20px;
-  border-radius: 50%;
-  background-color: #409eff;
 }
 </style>

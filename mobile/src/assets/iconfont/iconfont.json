@@ -11,6 +11,27 @@
       "font_class": "meiyoudingdan",
       "unicode": "e7b2",
       "unicode_decimal": 59314
+    },
+    {
+      "icon_id": "10402080",
+      "name": "reduce",
+      "font_class": "jian",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "11180132",
+      "name": "shop_car",
+      "font_class": "shop_car",
+      "unicode": "e54e",
+      "unicode_decimal": 58702
+    },
+    {
+      "icon_id": "13954746",
+      "name": "add",
+      "font_class": "tianjia",
+      "unicode": "e602",
+      "unicode_decimal": 58882
     }
   ]
 }
