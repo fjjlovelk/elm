@@ -91,6 +91,9 @@ export default {
 </script>
 
 <style scoped>
+.home {
+  padding: 10px 10px 0;
+}
 .home /deep/ .van-sticky--fixed {
   left: 10px;
   right: 10px;

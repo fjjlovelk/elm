@@ -3,12 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-#app {
-  height: 100vh;
-}
+html,
+body,
+#app,
 #app > div:first-child {
   height: 100%;
-  padding: 10px 10px 0;
 }
 .van-cell {
   padding: 10px 0;

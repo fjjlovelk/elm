@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mine">
     <div class="top" @click="touch">
       <div v-if="isLogin">
         <div class="login">{{username}}</div>
@@ -61,6 +61,9 @@ export default {
 </script>
 
 <style scoped>
+.mine {
+  padding: 10px 10px 0;
+}
 .top {
   height: 25%;
   display: flex;

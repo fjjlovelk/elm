@@ -1,8 +1,15 @@
 <template>
-  <div>
-    <van-nav-bar left-arrow @click-left="$router.go(-1)" />
-    <van-card :title="shopDetail.name" :desc="shopDetail.slogan" :thumb="shopDetail.shop_img" />
-    <van-tabs v-model="active" animated>
+  <div class="shop">
+    <div class="back-btn">
+      <van-icon name="arrow-left" size="20px" color="#fff" @click="$router.go(-1)" />
+    </div>
+    <my-card
+      :title="shopDetail.name"
+      :slogan="shopDetail.slogan"
+      :desc="shopDetail.description"
+      :imgURL="shopDetail.shop_img"
+    ></my-card>
+    <van-tabs v-model="active" animated sticky>
       <van-tab title="点餐">
         <my-order :id="id"></my-order>
       </van-tab>
@@ -14,11 +21,14 @@
 </template>
 
 <script>
+import MyCard from '../components/MyCard'
 import MyOrder from '../components/MyOrder'
 import MySubmitBar from '../components/MySubmitBar'
 export default {
   components: {
-    MyOrder, MySubmitBar
+    MyCard,
+    MyOrder,
+    MySubmitBar
   },
   props: {
     id: {
@@ -50,13 +60,19 @@ export default {
 </script>
 
 <style scoped>
-.van-card:not(:first-child) {
-  margin-top: 0;
-  margin-bottom: 10px;
+.back-btn {
+  height: 50px;
+  padding: 15px 0 0 10px;
 }
-.van-card__title {
-  font-size: 16px;
-  font-weight: bold;
+.my-card,
+.back-btn {
+  background-color: #2e2f3b;
+}
+.van-tabs,
+.van-tabs /deep/ .van-tabs__content--animated,
+.van-tabs /deep/ .van-tab__pane,
+.van-tabs /deep/ .van-tab__pane-wrapper {
+  height: 100%;
 }
 .van-tabs /deep/ .van-hairline--top-bottom::after,
 .van-tabs /deep/ .van-hairline-unset--top-bottom::after {

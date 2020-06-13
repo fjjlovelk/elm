@@ -1,26 +1,33 @@
 <template>
   <div class="my-order">
     <div class="left-nav">
-      <div
+      <a
         class="nav-item"
         :class="goodsCateId===item._id?'nav-item-active':''"
         v-for="item in goodsCateList"
         :key="item._id"
-        @click="selectGoodsCate(item._id)"
-      >{{item.name}}</div>
+        @click="selectGoodsCate(item)"
+      >{{item.name}}</a>
     </div>
     <div class="container">
-      <div v-for="item in goodsList" :key="item._id" class="goods-item">
-        <img :src="item.imgUrl" />
-        <div class="goods-item-tip">
-          <h4 class="goods-item-name">{{item.name}}</h4>
-          <div class="goods-item-detail">{{item.detail}}</div>
-          <div class="goods-item-price-btn">
-            <span class="goods-item-price">￥{{item.price}}</span>
-            <div class="goods-item-btn">
-              <i class="iconfont icon-jian"></i>
-              <span class="goods-item-num">1</span>
-              <i class="iconfont icon-tianjia"></i>
+      <div class="goods-body">
+        <div
+          v-for="item in goodsList"
+          :key="item._id"
+          :id="'anchor-' + item.point"
+          class="goods-item"
+        >
+          <img :src="item.imgUrl" />
+          <div class="goods-item-tip">
+            <h4 class="goods-item-name">{{item.name}}</h4>
+            <div class="goods-item-detail">{{item.detail}}</div>
+            <div class="goods-item-price-btn">
+              <span class="goods-item-price">￥{{item.price}}</span>
+              <div class="goods-item-btn">
+                <i v-if="item.selectedNum !== 0" class="iconfont icon-jian" @click="delGoods(item)"></i>
+                <span v-if="item.selectedNum !== 0" class="goods-item-num">{{item.selectedNum}}</span>
+                <i class="iconfont icon-tianjia" @click="addGoods(item)"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -30,6 +37,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     id: { type: String, required: true }
@@ -37,31 +45,78 @@ export default {
   data() {
     return {
       goodsCateList: [],
+      goodsList: [],
       goodsCateId: '',
-      goodsList: []
+      // 添加进购物车的商品
+      goods: []
     }
   },
+  computed: {
+    ...mapState({
+      cart_data: state => state.cart_data
+    })
+  },
   created() {
-    this.getGoodsCate()
+    this.getGoods()
   },
   methods: {
-    async getGoodsCate() {
+    async getGoods() {
       const { data: res } = await this.$http.get(`goods/category/${this.id}`)
       if (res.meta.status === 200) {
         this.goodsCateList = res.data
-        this.goodsCateId = this.goodsCateList[0]._id
-        this.getGoods(this.goodsCateId)
+        if (this.goodsCateList.length !== 0) {
+          this.goodsCateId = this.goodsCateList[0]._id
+        }
+        this.goodsCateList.map(item => {
+          item.children.map((i, index) => {
+            if (index === 0) {
+              this.$set(i, 'point', i.category)
+            }
+            this.$set(i, 'selectedNum', 0)
+            if (this.cart_data.hasOwnProperty(this.id)) {
+              this.goods = this.cart_data[this.id]
+              this.goods.map(goods => {
+                if (goods._id === i._id) {
+                  i.selectedNum = goods.selectedNum
+                }
+              })
+            }
+          })
+          this.goodsList.push(...item.children)
+        })
       }
     },
-    async getGoods(id) {
-      const { data: res } = await this.$http.get(`goods/${id}`)
-      if (res.meta.status === 200) {
-        this.goodsList = res.data
-      }
+    selectGoodsCate(item) {
+      this.goodsCateId = item._id
+      this.$el.querySelector('#anchor-' + item._id).scrollIntoView()
     },
-    async selectGoodsCate(id) {
-      this.goodsCateId = id
-      this.getGoods(id)
+    addGoods(item) {
+      const index = this.goods.indexOf(item)
+      item.selectedNum++
+      if (index === -1) {
+        this.goods.push(item)
+      } else {
+        this.goods[index].selectedNum = item.selectedNum
+      }
+      const goodsData = {
+        [this.id]: this.goods
+      }
+      this.$store.commit('saveCart_data', goodsData)
+    },
+    delGoods(item) {
+      const index = this.goods.findIndex(i => {
+        return i._id === item._id
+      })
+      item.selectedNum--
+      if (item.selectedNum === 0) {
+        this.goods.splice(index, 1)
+      } else {
+        this.goods[index].selectedNum = item.selectedNum
+      }
+      const goodsData = {
+        [this.id]: this.goods
+      }
+      this.$store.commit('saveCart_data', goodsData)
     }
   }
 }
@@ -74,9 +129,9 @@ export default {
 }
 .left-nav {
   width: 80px;
-  height: max-content;
   background-color: #f5f5f5;
-  margin-bottom: 70px;
+  overflow: auto;
+  margin-bottom: 50px;
 }
 .nav-item {
   width: 100%;
@@ -91,18 +146,22 @@ export default {
   background-color: #fff;
 }
 .container {
-  width: calc(100% - 80px);
+  flex: 1;
+  overflow: auto;
+  margin-bottom: 50px;
+  position: relative;
 }
 .goods-item {
   display: flex;
-  padding: 0 0 22px 5px;
+  padding: 0 10px 22px 5px;
 }
 .goods-item img {
   width: 75px;
   height: 75px;
 }
 .goods-item-tip {
-  width: calc(100% - 75px);
+  min-width: 0;
+  width: 100%;
   position: relative;
 }
 .goods-item-name {
@@ -130,7 +189,7 @@ export default {
 }
 .goods-item-btn .iconfont {
   font-size: 20px;
-  color: #409EFF;
+  color: #409eff;
 }
 .goods-item-num {
   padding: 0 10px;
