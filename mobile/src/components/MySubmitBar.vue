@@ -1,16 +1,19 @@
 <template>
   <div class="my-submit-bar">
-    <div class="submit-shop_car">
-      <div class="submit-shop_car-tag">1</div>
+    <!-- <transition name="van-slide-up"> -->
+    <div v-show="showSheet" class="action-sheet">1111</div>
+    <!-- </transition> -->
+    <div class="submit-shop_car" @click="showSheet = !showSheet">
+      <div class="submit-shop_car-tag" v-show="money.count !== 0">{{money.count}}</div>
       <i class="iconfont icon-shop_car"></i>
     </div>
     <div class="submit-total">
       <div>
         <span>￥</span>
-        <span class="submit-total-price">168.9</span>
+        <span class="submit-total-price">{{money.price + money.packing_fee}}</span>
       </div>
       <div>
-        <span class="submit-total-fee">另需配送费￥9</span>
+        <span class="submit-total-fee">另需配送费￥{{fee}}</span>
       </div>
     </div>
     <div class="submit-btn">去结算</div>
@@ -18,7 +21,38 @@
 </template>
 
 <script>
-export default {}
+import { mapState } from 'vuex'
+export default {
+  props: {
+    id: { type: String, required: true },
+    fee: { type: Number, required: true, default: 0 }
+  },
+  computed: {
+    ...mapState({
+      cart_data: state => state.cart_data
+    }),
+    money() {
+      if (this.cart_data[this.id]) {
+        return {
+          count: this.cart_data[this.id].count,
+          price: this.cart_data[this.id].price,
+          packing_fee: this.cart_data[this.id].packing_fee
+        }
+      } else {
+        return {
+          count: 0,
+          price: 0,
+          packing_fee: 0
+        }
+      }
+    }
+  },
+  data() {
+    return {
+      showSheet: false
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -31,6 +65,13 @@ export default {}
   background-color: #3b3b3c;
   display: flex;
   justify-content: space-between;
+}
+.action-sheet {
+  position: absolute;
+  width: 100%;
+  bottom: 50px;
+  background-color: #fff1d0;
+  padding-bottom: 10px;
 }
 .submit-shop_car {
   width: 50px;

@@ -16,7 +16,7 @@
       <van-tab title="评价">2</van-tab>
       <van-tab title="商家">3</van-tab>
     </van-tabs>
-    <my-submit-bar></my-submit-bar>
+    <my-submit-bar :id="id" :fee="shopDetail.delivery_fee"></my-submit-bar>
   </div>
 </template>
 

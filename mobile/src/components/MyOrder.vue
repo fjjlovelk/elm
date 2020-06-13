@@ -38,6 +38,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { add } from '../utils/operation'
 export default {
   props: {
     id: { type: String, required: true }
@@ -48,7 +49,10 @@ export default {
       goodsList: [],
       goodsCateId: '',
       // 添加进购物车的商品
-      goods: []
+      goods: [],
+      count: 0,
+      price: 0,
+      packing_fee: 0
     }
   },
   computed: {
@@ -73,8 +77,11 @@ export default {
               this.$set(i, 'point', i.category)
             }
             this.$set(i, 'selectedNum', 0)
-            if (this.cart_data.hasOwnProperty(this.id)) {
-              this.goods = this.cart_data[this.id]
+            if (this.cart_data[this.id]) {
+              this.goods = this.cart_data[this.id].goods
+              this.count = this.cart_data[this.id].count
+              this.price = this.cart_data[this.id].price
+              this.packing_fee = this.cart_data[this.id].packing_fee
               this.goods.map(goods => {
                 if (goods._id === i._id) {
                   i.selectedNum = goods.selectedNum
@@ -91,7 +98,12 @@ export default {
       this.$el.querySelector('#anchor-' + item._id).scrollIntoView()
     },
     addGoods(item) {
-      const index = this.goods.indexOf(item)
+      const index = this.goods.findIndex(i => {
+        return i._id === item._id
+      })
+      this.count++
+      this.price = add(this.price, item.price)
+      this.packing_fee = add(this.packing_fee, item.packing_fee)
       item.selectedNum++
       if (index === -1) {
         this.goods.push(item)
@@ -99,7 +111,12 @@ export default {
         this.goods[index].selectedNum = item.selectedNum
       }
       const goodsData = {
-        [this.id]: this.goods
+        [this.id]: {
+          goods: this.goods,
+          count: this.count,
+          price: this.price,
+          packing_fee: this.packing_fee
+        }
       }
       this.$store.commit('saveCart_data', goodsData)
     },
@@ -107,6 +124,9 @@ export default {
       const index = this.goods.findIndex(i => {
         return i._id === item._id
       })
+      this.count--
+      this.price = add(this.price, -item.price)
+      this.packing_fee = add(this.packing_fee, -item.packing_fee)
       item.selectedNum--
       if (item.selectedNum === 0) {
         this.goods.splice(index, 1)
@@ -114,7 +134,12 @@ export default {
         this.goods[index].selectedNum = item.selectedNum
       }
       const goodsData = {
-        [this.id]: this.goods
+        [this.id]: {
+          goods: this.goods,
+          count: this.count,
+          price: this.price,
+          packing_fee: this.packing_fee
+        }
       }
       this.$store.commit('saveCart_data', goodsData)
     }
