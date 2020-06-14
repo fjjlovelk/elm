@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     isLogin: false || sessionStorage.getItem('isLogin'),
     username: '' || sessionStorage.getItem('username'),
+    shop_detail: JSON.parse(localStorage.getItem('shop_detail')) || {},
     cart_data: JSON.parse(localStorage.getItem('cart_data')) || {}
   },
   mutations: {
@@ -25,6 +26,10 @@ export default new Vuex.Store({
       } else {
         sessionStorage.setItem('username', payload.msg)
       }
+    },
+    saveShop_detail(state, msg) {
+      state.shop_detail = msg
+      localStorage.setItem('shop_detail', JSON.stringify(state.shop_detail))
     },
     saveCart_data(state, msg) {
       state.cart_data = {}

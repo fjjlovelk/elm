@@ -16,7 +16,7 @@
       <van-tab title="评价">2</van-tab>
       <van-tab title="商家">3</van-tab>
     </van-tabs>
-    <my-submit-bar :id="id" :fee="shopDetail.delivery_fee"></my-submit-bar>
+    <my-submit-bar :id="id"></my-submit-bar>
   </div>
 </template>
 
@@ -53,6 +53,7 @@ export default {
       const { data: res } = await this.$http.get(`shops/${this.id}`)
       if (res.meta.status === 200) {
         this.shopDetail = res.data
+        this.$store.commit('saveShop_detail', res.data)
       }
     }
   }
