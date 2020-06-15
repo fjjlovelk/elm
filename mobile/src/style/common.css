@@ -5,8 +5,7 @@
 }
 html,
 body,
-#app,
-#app > div:first-child {
+#app {
   height: 100%;
 }
 .van-card__title {

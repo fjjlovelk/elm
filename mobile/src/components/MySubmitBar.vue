@@ -26,7 +26,7 @@
           <span class="submit-total-price">{{money.total}}</span>
         </div>
         <div>
-          <span class="submit-total-fee">另需配送费￥{{shop_detail.delivery_fee}}</span>
+          <span class="submit-total-fee">另需配送费￥{{shopDetail.delivery_fee}}</span>
         </div>
       </div>
       <div class="submit-btn">
@@ -46,19 +46,19 @@ export default {
   },
   computed: {
     ...mapState({
-      shop_detail: state => state.shop_detail,
-      cart_data: state => state.cart_data
+      shopDetail: state => state.shopDetail,
+      cartData: state => state.cartData
     }),
     goodsData() {
-      if (this.cart_data[this.id]) {
-        return this.cart_data[this.id]
+      if (this.cartData[this.id]) {
+        return this.cartData[this.id]
       } else {
         return {
           count: 0,
           price: 0,
           packing_fee: 0,
           total: 0,
-          starting_price: this.shop_detail.starting_price
+          starting_price: this.shopDetail.starting_price
         }
       }
     },
@@ -69,7 +69,7 @@ export default {
         packing_fee: this.goodsData.packing_fee,
         total: add(this.goodsData.price, this.goodsData.packing_fee),
         starting_price: add(
-          this.shop_detail.starting_price,
+          this.shopDetail.starting_price,
           -this.goodsData.price,
           -this.goodsData.packing_fee
         )
@@ -109,7 +109,7 @@ export default {
 .sheet-item {
   display: flex;
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid #e4e4e4;
 }

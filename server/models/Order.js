@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
   total: { type: Number, min: 0, default: 0 },
   tableware_num: { type: Number, min: 0, default: 0 },
   note: { type: String },
-  is_invoice: { type: Boolean },
+  is_bill: { type: Boolean },
   is_pay: { type: Boolean }
 })
 

@@ -2,7 +2,7 @@
   <div class="mine">
     <div class="top" @click="touch">
       <div v-if="isLogin">
-        <div class="login">{{username}}</div>
+        <div class="login">{{userInfo.username}}</div>
         <div class="tip">再忙，也要记得吃饭哟~</div>
       </div>
       <div v-else>
@@ -43,7 +43,7 @@ export default {
   computed: {
     ...mapState({
       isLogin: state => state.isLogin,
-      username: state => state.username
+      userInfo: state => state.userInfo
     })
   },
   methods: {
@@ -54,7 +54,7 @@ export default {
     logout() {
       sessionStorage.removeItem('token')
       this.$store.commit('changeLoginState', { msg: false, clear: true })
-      this.$store.commit('saveUsername',  { msg: '', clear: true })
+      this.$store.commit('saveUserInfo',  { msg: {}, clear: true })
     }
   }
 }
@@ -62,6 +62,7 @@ export default {
 
 <style scoped>
 .mine {
+  height: 100%;
   padding: 10px 10px 0;
 }
 .top {

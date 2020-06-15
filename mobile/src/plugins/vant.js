@@ -27,7 +27,11 @@ import {
   Tabs,
   Sidebar,
   SidebarItem,
-  SubmitBar
+  SubmitBar,
+  Dialog,
+  Stepper,
+  Switch,
+  Popup
 } from 'vant'
 
 Vue.use(Icon)
@@ -57,3 +61,7 @@ Vue.use(Tabs)
 Vue.use(Sidebar)
 Vue.use(SidebarItem)
 Vue.use(SubmitBar)
+Vue.use(Dialog)
+Vue.use(Stepper)
+Vue.use(Switch)
+Vue.use(Popup)

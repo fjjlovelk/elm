@@ -5,10 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: false || sessionStorage.getItem('isLogin'),
-    username: '' || sessionStorage.getItem('username'),
-    shop_detail: JSON.parse(localStorage.getItem('shop_detail')) || {},
-    cart_data: JSON.parse(localStorage.getItem('cart_data')) || {}
+    isLogin: sessionStorage.getItem('isLogin') || false,
+    userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
+    shopDetail: JSON.parse(localStorage.getItem('shopDetail')) || {},
+    cartData: JSON.parse(localStorage.getItem('cartData')) || {}
   },
   mutations: {
     changeLoginState(state, payload) {
@@ -19,22 +19,22 @@ export default new Vuex.Store({
         sessionStorage.setItem('isLogin', payload.msg)
       }
     },
-    saveUsername(state, payload) {
-      state.username = payload.msg
+    saveUserInfo(state, payload) {
+      state.userInfo = payload.msg
       if (payload.clear) {
-        sessionStorage.removeItem('username')
+        sessionStorage.removeItem('userInfo')
       } else {
-        sessionStorage.setItem('username', payload.msg)
+        sessionStorage.setItem('userInfo', JSON.stringify(payload.msg))
       }
     },
-    saveShop_detail(state, msg) {
-      state.shop_detail = msg
-      localStorage.setItem('shop_detail', JSON.stringify(state.shop_detail))
+    saveShopDetail(state, msg) {
+      state.shopDetail = msg
+      localStorage.setItem('shopDetail', JSON.stringify(state.shopDetail))
     },
-    saveCart_data(state, msg) {
-      state.cart_data = {}
-      Object.assign(state.cart_data, msg)
-      localStorage.setItem('cart_data', JSON.stringify(state.cart_data))
+    saveCartData(state, msg) {
+      state.cartData = {}
+      Object.assign(state.cartData, msg)
+      localStorage.setItem('cartData', JSON.stringify(state.cartData))
     }
   },
   actions: {

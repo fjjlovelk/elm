@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     ...mapState({
-      cart_data: state => state.cart_data
+      cartData: state => state.cartData
     })
   },
   created() {
@@ -77,11 +77,11 @@ export default {
               this.$set(i, 'point', i.category)
             }
             this.$set(i, 'selectedNum', 0)
-            if (this.cart_data[this.id]) {
-              this.goods = this.cart_data[this.id].goods
-              this.count = this.cart_data[this.id].count
-              this.price = this.cart_data[this.id].price
-              this.packing_fee = this.cart_data[this.id].packing_fee
+            if (this.cartData[this.id]) {
+              this.goods = this.cartData[this.id].goods
+              this.count = this.cartData[this.id].count
+              this.price = this.cartData[this.id].price
+              this.packing_fee = this.cartData[this.id].packing_fee
               this.goods.map(goods => {
                 if (goods._id === i._id) {
                   i.selectedNum = goods.selectedNum
@@ -118,7 +118,7 @@ export default {
           packing_fee: this.packing_fee
         }
       }
-      this.$store.commit('saveCart_data', goodsData)
+      this.$store.commit('saveCartData', goodsData)
     },
     delGoods(item) {
       const index = this.goods.findIndex(i => {
@@ -141,7 +141,7 @@ export default {
           packing_fee: this.packing_fee
         }
       }
-      this.$store.commit('saveCart_data', goodsData)
+      this.$store.commit('saveCartData', goodsData)
     }
   }
 }

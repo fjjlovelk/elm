@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="order">
     <div v-if="isLogin">订单</div>
     <div v-else class="tips">
       <div class="iconfont icon-meiyoudingdan"></div>
@@ -24,6 +24,9 @@ export default {
 </script>
 
 <style scoped>
+.order {
+  height: 100%;
+}
 .tips {
   height: 100%;
   display: flex;

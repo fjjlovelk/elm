@@ -53,7 +53,7 @@ export default {
       const { data: res } = await this.$http.get(`shops/${this.id}`)
       if (res.meta.status === 200) {
         this.shopDetail = res.data
-        this.$store.commit('saveShop_detail', res.data)
+        this.$store.commit('saveShopDetail', res.data)
       }
     }
   }
@@ -61,6 +61,9 @@ export default {
 </script>
 
 <style scoped>
+.shop {
+  height: 100%;
+}
 .back-btn {
   height: 50px;
   padding: 15px 0 0 10px;
