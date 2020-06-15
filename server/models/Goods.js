@@ -6,8 +6,8 @@ const schema = new mongoose.Schema({
   imgUrl: { type: String },
   category: { type: mongoose.SchemaTypes.ObjectId, ref: 'GoodsCategory' },
   feature: { type: String },
-  packing_fee: { type: Number },
-  price: { type: Number }
+  packing_fee: { type: Number, min: 0 },
+  price: { type: Number, min: 0 }
 })
 
 module.exports = mongoose.model('Goods', schema)

@@ -10,22 +10,27 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/home/Home.vue')
   },
   {
     path: '/shop/:id',
-    component: () => import('../views/Shop.vue'),
+    component: () => import('../views/home/Shop.vue'),
+    props: true
+  },
+  {
+    path: '/preview/:id',
+    component: () => import('../views/home/Preview.vue'),
     props: true
   },
   {
     path: '/order',
     name: 'order',
-    component: () => import('../views/Order.vue')
+    component: () => import('../views/order/Order.vue')
   },
   {
     path: '/mine',
     name: 'mine',
-    component: () => import('../views/Mine.vue')
+    component: () => import('../views/mine/Mine.vue')
   },
   {
     path: '/login',

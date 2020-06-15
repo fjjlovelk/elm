@@ -9,11 +9,11 @@ body,
 #app > div:first-child {
   height: 100%;
 }
-.van-cell {
-  padding: 10px 0;
-}
 .van-card__title {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
+}
+.van-cell {
+  padding: 10px 0;
 }

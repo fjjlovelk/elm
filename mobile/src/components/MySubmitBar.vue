@@ -1,16 +1,20 @@
 <template>
   <div class="my-submit-bar">
-    <!-- <transition name="van-slide-up"> -->
-    <div v-show="showSheet" class="action-sheet">
+    <div v-show="showSheet && money.count !== 0" class="action-sheet">
       <div class="sheet-title">购物车</div>
       <div class="sheet-body">
         <div v-for="item in goodsData.goods" :key="item._id" class="sheet-item">
           <span class="sheet-item-name">{{item.name}}</span>
+          <span>￥{{item.price}}</span>
           <span>x{{item.selectedNum}}</span>
+        </div>
+        <div class="sheet-item">
+          <span class="sheet-item-name">打包费</span>
+          <span>￥{{money.packing_fee}}</span>
+          <span></span>
         </div>
       </div>
     </div>
-    <!-- </transition> -->
     <div class="submit-bar">
       <div class="submit-shop_car" @click="showSheet = !showSheet">
         <div class="submit-shop_car-tag" v-show="money.count !== 0">{{money.count}}</div>
@@ -27,7 +31,7 @@
       </div>
       <div class="submit-btn">
         <div v-if="money.starting_price >= 0">差￥{{ money.starting_price }}起送</div>
-        <div class="submit-btn-2" v-else>去结算</div>
+        <div class="submit-btn-2" v-else @click="$router.push(`/preview/${id}`)">去结算</div>
       </div>
     </div>
   </div>
@@ -107,7 +111,7 @@ export default {
   justify-content: space-between;
   align-content: center;
   padding: 14px 0;
-  border-bottom: 1px solid #E4E4E4;
+  border-bottom: 1px solid #e4e4e4;
 }
 .sheet-item-name {
   width: 250px;

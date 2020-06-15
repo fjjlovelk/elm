@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import MyCard from '../components/MyCard'
-import MyOrder from '../components/MyOrder'
-import MySubmitBar from '../components/MySubmitBar'
+import MyCard from '../../components/MyCard'
+import MyOrder from '../../components/MyOrder'
+import MySubmitBar from '../../components/MySubmitBar'
 export default {
   components: {
     MyCard,
