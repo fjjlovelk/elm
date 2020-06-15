@@ -8,27 +8,27 @@ router.get('/category/:id', async (req, res) => {
   try {
     const model = await GoodsCate.find({ shop: req.params.id })
     res.sendResult(model, 200, '获取商品分类列表成功')
-  } catch (err) {
-    res.sendResult(err.message, 500, '服务器内部错误, ' + err.message)
-    throw err
+  } catch (error) {
+    res.sendResult(error.message, 500, '服务器内部错误, ' + error.message)
+    throw error
   }
 })
 router.post('/category', async (req, res) => {
   try {
     const model = await GoodsCate.create(req.body)
     res.sendResult(model, 201, '添加商品分类成功')
-  } catch (err) {
-    res.sendResult(err.message, 500, '服务器内部错误, ' + err.message)
-    throw err
+  } catch (error) {
+    res.sendResult(error.message, 500, '服务器内部错误, ' + error.message)
+    throw error
   }
 })
 router.delete('/category/:id', async (req, res) => {
   try {
     await GoodsCate.findByIdAndDelete(req.params.id)
     res.sendResult('ok', 200, '删除商品分类成功')
-  } catch (err) {
-    res.sendResult(err.message, 500, '服务器内部错误, ' + err.message)
-    throw err
+  } catch (error) {
+    res.sendResult(error.message, 500, '服务器内部错误, ' + error.message)
+    throw error
   }
 })
 
@@ -48,9 +48,9 @@ router.get('/', async (req, res) => {
       data: model
     }
     res.sendResult(ret, 200, '获取商品列表成功')
-  } catch (err) {
-    res.sendResult(err.message, 500, '服务器内部错误, ' + err.message)
-    throw err
+  } catch (error) {
+    res.sendResult(error.message, 500, '服务器内部错误, ' + error.message)
+    throw error
   }
 })
 // 根据id获取商品详情
@@ -60,18 +60,18 @@ router.get('/:id', async (req, res) => {
       .populate({ path: 'shop', select: 'name' })
       .populate('category')
     res.sendResult(model, 200, '获取商品详情成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 router.post('/', async (req, res) => {
   try {
     const model = await Goods.create(req.body)
     res.sendResult(model, 201, '添加商品成功')
-  } catch (err) {
-    res.sendResult(err.message, 500, '服务器内部错误, ' + err.message)
-    throw err
+  } catch (error) {
+    res.sendResult(error.message, 500, '服务器内部错误, ' + error.message)
+    throw error
   }
 })
 // 修改商品
@@ -79,18 +79,18 @@ router.put('/:id', async (req, res) => {
   try {
     await Goods.findByIdAndUpdate(req.params.id, req.body)
     res.sendResult('ok', 200, '修改商品成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 router.delete('/:id', async (req, res) => {
   try {
     await Goods.findByIdAndDelete(req.params.id)
     res.sendResult('ok', 200, '删除商品成功')
-  } catch (err) {
-    res.sendResult(err.message, 500, '服务器内部错误, ' + err.message)
-    throw err
+  } catch (error) {
+    res.sendResult(error.message, 500, '服务器内部错误, ' + error.message)
+    throw error
   }
 })
 

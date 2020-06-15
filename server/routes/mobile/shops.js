@@ -39,9 +39,9 @@ router.get('/', async (req, res) => {
       data: model
     }
     res.sendResult(ret, 200, '获取商家列表成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 根据id获取商家详情
@@ -49,9 +49,9 @@ router.get('/:id', async (req, res) => {
   try {
     const model = await Shop.findById(req.params.id)
     res.sendResult(model, 200, '获取商家详情成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 

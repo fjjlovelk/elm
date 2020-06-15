@@ -17,9 +17,9 @@ router.get('/category', async (req, res) => {
       }
     ])
     res.sendResult(model, 200, '获取分类成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 
 })
@@ -28,9 +28,9 @@ router.post('/category', async (req, res) => {
   try {
     const model = await Cate.create(req.body)
     res.sendResult(model, 201, '添加一级分类成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 删除一级分类
@@ -39,9 +39,9 @@ router.delete('/category/:id', async (req, res) => {
     await Cate.findByIdAndDelete(req.params.id)
     await SubCate.deleteMany({ parent: req.params.id })
     res.sendResult('ok', 200, '删除一级分类成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 修改一级分类
@@ -49,9 +49,9 @@ router.put('/category/:id', async (req, res) => {
   try {
     await Cate.findByIdAndUpdate(req.params.id, req.body)
     res.sendResult('ok', 200, '修改一级分类成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 
@@ -60,9 +60,9 @@ router.post('/subCategory', async (req, res) => {
   try {
     const model = await SubCate.create(req.body)
     res.sendResult(model, 201, '添加二级分类成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 删除二级分类
@@ -70,9 +70,9 @@ router.delete('/subCategory/:id', async (req, res) => {
   try {
     await SubCate.findByIdAndDelete(req.params.id)
     res.sendResult('ok', 200, '删除二级分类成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 修改二级分类
@@ -80,9 +80,9 @@ router.put('/subCategory/:id', async (req, res) => {
   try {
     await SubCate.findByIdAndUpdate(req.params.id, req.body)
     res.sendResult('ok', 200, '修改二级分类成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 
@@ -101,9 +101,9 @@ router.get('/', async (req, res) => {
       data: model
     }
     res.sendResult(ret, 200, '获取商家列表成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 根据id获取商家详情
@@ -112,9 +112,9 @@ router.get('/:id', async (req, res) => {
     const model = await Shop.findById(req.params.id)
       .populate({ path: 'category', populate: { path: 'parent' } })
     res.sendResult(model, 200, '获取商家详情成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 添加商家
@@ -122,9 +122,9 @@ router.post('/', async (req, res) => {
   try {
     const model = await Shop.create(req.body)
     res.sendResult(model, 201, '添加商家成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 修改商家
@@ -132,9 +132,9 @@ router.put('/:id', async (req, res) => {
   try {
     await Shop.findByIdAndUpdate(req.params.id, req.body)
     res.sendResult('ok', 200, '修改商家成功')
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 // 删除商家
@@ -143,9 +143,9 @@ router.delete('/:id', async (req, res) => {
     await Shop.findByIdAndDelete(req.params.id)
     res.sendResult('ok', 200, '删除商家成功')
     return
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 

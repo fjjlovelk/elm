@@ -17,8 +17,7 @@
       </div>
     </div>
     <div>
-      <van-cell title="我的地址" icon="location-o" is-link />
-      <van-cell title="我的收藏" icon="like-o" is-link />
+      <van-cell title="我的地址" v-if="isLogin" icon="location-o" is-link to="/addressList" />
       <van-cell title="规则中心" icon="description" is-link />
     </div>
     <van-action-sheet
@@ -63,13 +62,13 @@ export default {
 <style scoped>
 .mine {
   height: 100%;
-  padding: 10px 10px 0;
 }
 .top {
   height: 25%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 16px;
 }
 .login {
   font-size: 28px;

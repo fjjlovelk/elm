@@ -17,9 +17,9 @@ router.get('/category/:id', async (req, res) => {
     setTimeout(() => {
       res.sendResult(model, 200, '获取商品分类成功')
     }, 1000)
-  } catch (err) {
+  } catch (error) {
     res.sendResult(false, 500, '服务器内部错误')
-    throw err
+    throw error
   }
 })
 

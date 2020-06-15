@@ -115,4 +115,9 @@ export default {
   width: 75px;
   height: 60px;
 }
+.van-card__title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 </style>

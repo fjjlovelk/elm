@@ -5,7 +5,7 @@ const schema = new mongoose.Schema({
   sex: { type: Boolean, default: true },
   mobile: { type: String },
   address: { type: String },
-  house_num: { type: String }
+  address_detail: { type: String }
 })
 
 module.exports = mongoose.model('Address', schema)

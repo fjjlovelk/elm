@@ -31,7 +31,9 @@ import {
   Dialog,
   Stepper,
   Switch,
-  Popup
+  Popup,
+  RadioGroup,
+  Radio
 } from 'vant'
 
 Vue.use(Icon)
@@ -65,3 +67,5 @@ Vue.use(Dialog)
 Vue.use(Stepper)
 Vue.use(Switch)
 Vue.use(Popup)
+Vue.use(RadioGroup)
+Vue.use(Radio)

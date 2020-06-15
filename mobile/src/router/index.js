@@ -9,7 +9,7 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'home',
+    name: 'Home',
     component: () => import('../views/home/Home.vue')
   },
   {
@@ -24,18 +24,29 @@ const routes = [
   },
   {
     path: '/order',
-    name: 'order',
+    name: 'Order',
     component: () => import('../views/order/Order.vue')
   },
   {
     path: '/mine',
-    name: 'mine',
+    name: 'Mine',
     component: () => import('../views/mine/Mine.vue')
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     component: () => import('../views/mine/Login.vue')
+  },
+  {
+    path: '/addressList',
+    name: 'AddressList',
+    component: () => import('../views/mine/AddressList.vue')
+  },
+  {
+    path: '/addressEdit/:addressId*',
+    name: 'AddressEdit',
+    component: () => import('../views/mine/AddressEdit.vue'),
+    props: true
   }
 ]
 
