@@ -5,7 +5,7 @@
       <div class="sheet-body">
         <div v-for="item in goodsData.goods" :key="item._id" class="sheet-item">
           <span class="sheet-item-name">{{item.name}}</span>
-          <span>￥{{item.price}}</span>
+          <span>￥{{item.sum}}</span>
           <span>x{{item.selectedNum}}</span>
         </div>
         <div class="sheet-item">
@@ -31,7 +31,7 @@
       </div>
       <div class="submit-btn">
         <div v-if="money.starting_price >= 0">差￥{{ money.starting_price }}起送</div>
-        <div class="submit-btn-2" v-else @click="$router.push(`/preview/${id}`)">去结算</div>
+        <div class="submit-btn-2" v-else @click="toSettle">去结算</div>
       </div>
     </div>
   </div>
@@ -42,16 +42,17 @@ import { mapState } from 'vuex'
 import { add } from '../utils/operation'
 export default {
   props: {
-    id: { type: String, required: true }
+    shopId: { type: String, required: true }
   },
   computed: {
     ...mapState({
+      isLogin: state => state.isLogin,
       shopDetail: state => state.shopDetail,
       cartData: state => state.cartData
     }),
     goodsData() {
-      if (this.cartData[this.id]) {
-        return this.cartData[this.id]
+      if (this.cartData[this.shopId]) {
+        return this.cartData[this.shopId]
       } else {
         return {
           count: 0,
@@ -79,6 +80,24 @@ export default {
   data() {
     return {
       showSheet: false
+    }
+  },
+  methods: {
+    toSettle() {
+      if (this.isLogin) {
+        this.$router.push(`/preview/${this.shopId}`)
+      } else {
+        this.$dialog
+          .confirm({
+            title: '提示',
+            message: '您还没有登录',
+            confirmButtonText: '去登录'
+          })
+          .then(() => {
+            this.$router.push('/login')
+          })
+          .catch(() => {})
+      }
     }
   }
 }
@@ -114,7 +133,7 @@ export default {
   border-bottom: 1px solid #e4e4e4;
 }
 .sheet-item-name {
-  width: 250px;
+  width: 200px;
   word-break: break-all;
 }
 .sheet-title {

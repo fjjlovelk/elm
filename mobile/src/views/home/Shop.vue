@@ -11,12 +11,12 @@
     ></my-card>
     <van-tabs v-model="active" animated sticky>
       <van-tab title="点餐">
-        <my-order :id="id"></my-order>
+        <my-order :shopId="shopId"></my-order>
       </van-tab>
       <van-tab title="评价">2</van-tab>
       <van-tab title="商家">3</van-tab>
     </van-tabs>
-    <my-submit-bar :id="id"></my-submit-bar>
+    <my-submit-bar :shopId="shopId"></my-submit-bar>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     MySubmitBar
   },
   props: {
-    id: {
+    shopId: {
       type: String,
       required: true
     }
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     async getShopDetail() {
-      const { data: res } = await this.$http.get(`shops/${this.id}`)
+      const { data: res } = await this.$http.get(`shops/${this.shopId}`)
       if (res.meta.status === 200) {
         this.shopDetail = res.data
         this.$store.commit('saveShopDetail', res.data)

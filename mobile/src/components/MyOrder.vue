@@ -41,7 +41,7 @@ import { mapState } from 'vuex'
 import { add } from '../utils/operation'
 export default {
   props: {
-    id: { type: String, required: true }
+    shopId: { type: String, required: true }
   },
   data() {
     return {
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     async getGoods() {
-      const { data: res } = await this.$http.get(`goods/category/${this.id}`)
+      const { data: res } = await this.$http.get(`goods/category/${this.shopId}`)
       if (res.meta.status === 200) {
         this.goodsCateList = res.data
         if (this.goodsCateList.length !== 0) {
@@ -77,14 +77,16 @@ export default {
               this.$set(i, 'point', i.category)
             }
             this.$set(i, 'selectedNum', 0)
-            if (this.cartData[this.id]) {
-              this.goods = this.cartData[this.id].goods
-              this.count = this.cartData[this.id].count
-              this.price = this.cartData[this.id].price
-              this.packing_fee = this.cartData[this.id].packing_fee
+            this.$set(i, 'sum', 0)
+            if (this.cartData[this.shopId]) {
+              this.goods = this.cartData[this.shopId].goods
+              this.count = this.cartData[this.shopId].count
+              this.price = this.cartData[this.shopId].price
+              this.packing_fee = this.cartData[this.shopId].packing_fee
               this.goods.map(goods => {
                 if (goods._id === i._id) {
                   i.selectedNum = goods.selectedNum
+                  i.sum = goods.sum
                 }
               })
             }
@@ -105,13 +107,14 @@ export default {
       this.price = add(this.price, item.price)
       this.packing_fee = add(this.packing_fee, item.packing_fee)
       item.selectedNum++
+      item.sum = add(item.sum, item.price)
       if (index === -1) {
         this.goods.push(item)
       } else {
         this.goods[index].selectedNum = item.selectedNum
       }
       const goodsData = {
-        [this.id]: {
+        [this.shopId]: {
           goods: this.goods,
           count: this.count,
           price: this.price,
@@ -128,13 +131,14 @@ export default {
       this.price = add(this.price, -item.price)
       this.packing_fee = add(this.packing_fee, -item.packing_fee)
       item.selectedNum--
+      item.sum = add(item.sum, -item.price)
       if (item.selectedNum === 0) {
         this.goods.splice(index, 1)
       } else {
         this.goods[index].selectedNum = item.selectedNum
       }
       const goodsData = {
-        [this.id]: {
+        [this.shopId]: {
           goods: this.goods,
           count: this.count,
           price: this.price,

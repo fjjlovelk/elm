@@ -1,28 +1,40 @@
 <template>
   <div class="address-add">
     <van-sticky>
-      <van-nav-bar title="新增地址" left-arrow @click-left="$router.go(-1)" />
+      <van-nav-bar :title="addressId?'修改地址':'新增地址'" left-arrow @click-left="$router.go(-1)" />
     </van-sticky>
-    <div class="address-body">
+    <van-form @submit="onSubmit" class="address-form">
       <van-cell-group>
-        <van-field v-model="form.name" label="联系人" colon />
-        <van-cell>
-          <template>
+        <van-field
+          v-model="form.name"
+          label="联系人"
+          :rules="[{ required: true, message: '请输入联系人姓名' }]"
+        />
+        <van-field label="性别">
+          <template #input>
             <van-radio-group v-model="form.sex" direction="horizontal">
               <van-radio :name="true">先生</van-radio>
               <van-radio :name="false">女士</van-radio>
             </van-radio-group>
           </template>
-        </van-cell>
-        <van-field v-model="form.mobile" label="手机号" colon />
-        <van-field v-model="form.address" label="收货地址" colon />
-        <van-field v-model="form.address_detail" label="门牌号" colon />
+        </van-field>
+        <van-field
+          v-model="form.mobile"
+          label="手机号"
+          :rules="[{ pattern, required: true, message: '请输入正确的手机号' }]"
+        />
+        <van-field
+          v-model="form.address"
+          label="收货地址"
+          :rules="[{ required: true, message: '请输入收货地址' }]"
+        />
+        <van-field v-model="form.address_detail" label="门牌号" />
       </van-cell-group>
       <div class="address-btn">
-        <van-button @click="save" type="danger" round block>保存</van-button>
-        <van-button v-if="addressId" @click="del" type="default" round block>删除</van-button>
+        <van-button native-type="submit" round block type="danger">提交</van-button>
+        <van-button native-type="button" @click="del" round block type="default">删除</van-button>
       </div>
-    </div>
+    </van-form>
   </div>
 </template>
 
@@ -41,7 +53,8 @@ export default {
         mobile: '',
         address: '',
         address_detail: ''
-      }
+      },
+      pattern: /^1[3456789]\d{9}$/
     }
   },
   computed: {
@@ -59,7 +72,7 @@ export default {
         this.form = res.data
       }
     },
-    async save() {
+    async onSubmit() {
       if (this.addressId) {
         const { data: res } = await this.$http.put(
           `address/${this.addressId}`,
@@ -103,15 +116,12 @@ export default {
   min-height: 100%;
   background-color: #f4f4f4;
 }
-.address-body {
+.address-form {
   padding: 12px;
 }
 .van-cell-group {
   border-radius: 8px;
   overflow: hidden;
-}
-.van-radio-group--horizontal {
-  justify-content: center;
 }
 .address-btn {
   padding: 32px 0;

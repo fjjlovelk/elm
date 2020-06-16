@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <van-nav-bar left-text="返回" left-arrow @click-left="$router.push('/mine')" />
+    <van-nav-bar left-text="返回" left-arrow @click-left="$router.go(-1)" />
     <van-form @submit="login">
       <van-field
         v-model="form.username"
@@ -44,12 +44,11 @@ export default {
     async login() {
       const { data: res } = await this.$http.post('login', this.form)
       if (res.meta.status === 200) {
-        console.log(res);
         sessionStorage.setItem('token', res.data.token)
         this.$toast.success(res.meta.message)
         this.$store.commit('changeLoginState', { msg: true })
         this.$store.commit('saveUserInfo', { msg: res.data.data })
-        this.$router.push('/mine')
+        this.$router.go(-1)
       }
     }
   }

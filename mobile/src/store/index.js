@@ -8,7 +8,8 @@ export default new Vuex.Store({
     isLogin: sessionStorage.getItem('isLogin') || false,
     userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
     shopDetail: JSON.parse(localStorage.getItem('shopDetail')) || {},
-    cartData: JSON.parse(localStorage.getItem('cartData')) || {}
+    cartData: JSON.parse(localStorage.getItem('cartData')) || {},
+    deliveryPoi: JSON.parse(localStorage.getItem('deliveryPoi')) || ''
   },
   mutations: {
     changeLoginState(state, payload) {
@@ -35,6 +36,14 @@ export default new Vuex.Store({
       state.cartData = {}
       Object.assign(state.cartData, msg)
       localStorage.setItem('cartData', JSON.stringify(state.cartData))
+    },
+    delCartData(state, msg) {
+      delete state.cartData[msg]
+      localStorage.setItem('cartData', JSON.stringify(state.cartData))
+    },
+    saveDeliveryPoi(state, msg) {
+      state.deliveryPoi = msg
+      localStorage.setItem('deliveryPoi', JSON.stringify(state.deliveryPoi))
     }
   },
   actions: {

@@ -13,12 +13,12 @@ const routes = [
     component: () => import('../views/home/Home.vue')
   },
   {
-    path: '/shop/:id',
+    path: '/shop/:shopId',
     component: () => import('../views/home/Shop.vue'),
     props: true
   },
   {
-    path: '/preview/:id',
+    path: '/preview/:shopId',
     component: () => import('../views/home/Preview.vue'),
     props: true
   },
@@ -38,15 +38,20 @@ const routes = [
     component: () => import('../views/mine/Login.vue')
   },
   {
-    path: '/addressList',
+    path: '/addressList/:shopId*',
     name: 'AddressList',
-    component: () => import('../views/mine/AddressList.vue')
+    component: () => import('../views/mine/AddressList.vue'),
+    props: true
   },
   {
     path: '/addressEdit/:addressId*',
     name: 'AddressEdit',
     component: () => import('../views/mine/AddressEdit.vue'),
     props: true
+  },
+  {
+    path: '*',
+    redirect: '/home'
   }
 ]
 

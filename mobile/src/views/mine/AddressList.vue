@@ -12,6 +12,7 @@
         v-for="item in addressList"
         :title="item.address + ' ' + item.address_detail"
         :key="item._id"
+        @click="select(item)"
         center
       >
         <template #label>
@@ -34,6 +35,9 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+  props: {
+    shopId: { type: String }
+  },
   data() {
     return {
       addressList: [],
@@ -58,6 +62,12 @@ export default {
         if (res.data.length === 0) {
           this.empty = true
         }
+      }
+    },
+    select(item) {
+      if(this.shopId) {
+        this.$store.commit('saveDeliveryPoi', item)
+        this.$router.go(-1)
       }
     }
   }
