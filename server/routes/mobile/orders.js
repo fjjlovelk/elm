@@ -11,7 +11,15 @@ router.get('/list/:id', async (req, res) => {
       .where({ user: req.params.id })
       .skip((parseInt(pageNum) - 1) * parseInt(pageSize))
       .limit(parseInt(pageSize))
-      .populate('address shop goods')
+      .populate({
+        path: 'shop',
+        select: 'name shop_img delivery_fee'
+      }).populate({
+        path: 'address'
+      }).populate({
+        path: 'goodsList.goods',
+        select: 'name'
+      })
     const ret = {
       total: total,
       data: model

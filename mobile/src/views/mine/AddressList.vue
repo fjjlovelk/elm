@@ -66,7 +66,7 @@ export default {
     },
     select(item) {
       if(this.shopId) {
-        this.$store.commit('saveDeliveryPoi', item)
+        this.$store.commit('saveDeliveryPoi', { msg: item })
         this.$router.go(-1)
       }
     }

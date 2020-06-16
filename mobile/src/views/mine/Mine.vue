@@ -54,6 +54,8 @@ export default {
       sessionStorage.removeItem('token')
       this.$store.commit('changeLoginState', { msg: false, clear: true })
       this.$store.commit('saveUserInfo',  { msg: {}, clear: true })
+      this.$store.commit('saveDeliveryPoi',  { msg: '', clear: true })
+      this.$store.commit('saveOrderDetaili',  { msg: '', clear: true })
     }
   }
 }

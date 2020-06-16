@@ -9,7 +9,8 @@ export default new Vuex.Store({
     userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
     shopDetail: JSON.parse(localStorage.getItem('shopDetail')) || {},
     cartData: JSON.parse(localStorage.getItem('cartData')) || {},
-    deliveryPoi: JSON.parse(localStorage.getItem('deliveryPoi')) || ''
+    deliveryPoi: JSON.parse(sessionStorage.getItem('deliveryPoi')) || '',
+    orderDetail: JSON.parse(sessionStorage.getItem('orderDetail')) || ''
   },
   mutations: {
     changeLoginState(state, payload) {
@@ -17,7 +18,7 @@ export default new Vuex.Store({
       if (payload.clear) {
         sessionStorage.removeItem('isLogin')
       } else {
-        sessionStorage.setItem('isLogin', payload.msg)
+        sessionStorage.setItem('isLogin', state.isLogin)
       }
     },
     saveUserInfo(state, payload) {
@@ -25,7 +26,7 @@ export default new Vuex.Store({
       if (payload.clear) {
         sessionStorage.removeItem('userInfo')
       } else {
-        sessionStorage.setItem('userInfo', JSON.stringify(payload.msg))
+        sessionStorage.setItem('userInfo', JSON.stringify(state.userInfo))
       }
     },
     saveShopDetail(state, msg) {
@@ -41,9 +42,21 @@ export default new Vuex.Store({
       delete state.cartData[msg]
       localStorage.setItem('cartData', JSON.stringify(state.cartData))
     },
-    saveDeliveryPoi(state, msg) {
-      state.deliveryPoi = msg
-      localStorage.setItem('deliveryPoi', JSON.stringify(state.deliveryPoi))
+    saveDeliveryPoi(state, payload) {
+      state.deliveryPoi = payload.msg
+      if (payload.clear) {
+        sessionStorage.removeItem('deliveryPoi')
+      } else {
+        sessionStorage.setItem('deliveryPoi', JSON.stringify(state.deliveryPoi))
+      }
+    },
+    saveOrderDetaili(state, payload) {
+      state.orderDetail = payload.msg
+      if (payload.clear) {
+        sessionStorage.removeItem('orderDetail')
+      } else {
+        sessionStorage.setItem('orderDetail', JSON.stringify(state.orderDetail))
+      }
     }
   },
   actions: {
