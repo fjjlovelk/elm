@@ -9,8 +9,7 @@ export default new Vuex.Store({
     userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
     shopDetail: JSON.parse(localStorage.getItem('shopDetail')) || {},
     cartData: JSON.parse(localStorage.getItem('cartData')) || {},
-    deliveryPoi: JSON.parse(sessionStorage.getItem('deliveryPoi')) || '',
-    orderDetail: JSON.parse(sessionStorage.getItem('orderDetail')) || ''
+    deliveryPoi: JSON.parse(sessionStorage.getItem('deliveryPoi')) || ''
   },
   mutations: {
     changeLoginState(state, payload) {
@@ -48,14 +47,6 @@ export default new Vuex.Store({
         sessionStorage.removeItem('deliveryPoi')
       } else {
         sessionStorage.setItem('deliveryPoi', JSON.stringify(state.deliveryPoi))
-      }
-    },
-    saveOrderDetaili(state, payload) {
-      state.orderDetail = payload.msg
-      if (payload.clear) {
-        sessionStorage.removeItem('orderDetail')
-      } else {
-        sessionStorage.setItem('orderDetail', JSON.stringify(state.orderDetail))
       }
     }
   },

@@ -10,7 +10,7 @@
             is-link
             :to="`/shop/${item.shop._id}`"
           />
-          <div @click="toOrderDetail(item)">
+          <div @click="toOrderDetail(item._id)">
             <div class="item-body">
               <p v-for="goodsItem in item.goodsList" :key="goodsItem._id" class="item-body-p">
                 <span>{{goodsItem.goods.name}}</span>
@@ -47,6 +47,7 @@ export default {
       loading: false,
       finished: false,
       queryForm: {
+        userId: null,
         pageNum: 1,
         pageSize: 10
       }
@@ -58,15 +59,15 @@ export default {
       userInfo: state => state.userInfo
     })
   },
-  created() {},
   methods: {
     async getOrderList() {
-      const { data: res } = await this.$http.get(
-        `orders/list/${this.userInfo._id}`
-      )
+      this.queryForm.userId = this.userInfo._id
+      const { data: res } = await this.$http.get('orders/list', {
+        params: this.queryForm
+      })
       if (res.meta.status === 200) {
         this.queryForm.pageNum++
-        this.orderList = res.data.data
+        this.orderList.push(...res.data.data)
         this.loading = false
         if (this.orderList.length >= res.data.total) {
           this.finished = true
@@ -90,9 +91,8 @@ export default {
         })
         .catch(() => {})
     },
-    toOrderDetail(item) {
-      this.$store.commit('saveOrderDetaili', { msg: item })
-      this.$router.push('/orderDetail')
+    toOrderDetail(id) {
+      this.$router.push(`/orderDetail/${id}`)
     }
   }
 }
