@@ -4,6 +4,10 @@
       <van-nav-bar title="订单详情" left-arrow @click-left="$router.go(-1)" />
     </van-sticky>
     <div class="container">
+      <div v-if="orderData.is_pay" class="tip">
+        订单已完成
+      </div>
+      <div v-else class="tip">订单已取消</div>
       <van-cell-group>
         <van-cell :title="shop.name" is-link :to="`/shop/${shop._id}`" />
         <div>
@@ -39,7 +43,7 @@
           readonly
         />
         <van-field label="订单编号" :value="orderId" readonly />
-        <van-field label="下单时间" :value="orderData.createdAt" readonly />
+        <van-field label="下单时间" :value="orderData.createdAt | formatDate" readonly />
         <van-field label="餐具数量" :value="orderData.tableware_num" readonly />
         <van-field label="备注" :value="orderData.note" readonly />
       </van-cell-group>
@@ -81,10 +85,16 @@ export default {
 <style scoped>
 .order-detail {
   min-height: 100%;
+  background-color: #f4f4f4;
 }
 .container {
-  background-color: #f4f4f4;
   padding: 12px;
+}
+.tip {
+  color: #333;
+  font-size: 20px;
+  text-align: center;
+  padding-bottom: 12px;
 }
 .van-cell-group {
   border-radius: 8px;

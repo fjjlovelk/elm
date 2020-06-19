@@ -14,7 +14,14 @@
         <my-order :shopId="shopId"></my-order>
       </van-tab>
       <van-tab title="评价">2</van-tab>
-      <van-tab title="商家">3</van-tab>
+      <van-tab title="商家">
+        <van-cell-group>
+          <van-cell title="地址" icon="location-o" :value="shopDetail.address" />
+          <van-cell title="电话" icon="phone-o" :value="shopDetail.telphone" />
+          <van-cell title="营业时间" icon="clock-o" :value="shopDetail.open_time + '-' + shopDetail.close_time" />
+          <van-cell title="公告" icon="bullhorn-o" :value="shopDetail.slogan" />
+        </van-cell-group>
+      </van-tab>
     </van-tabs>
     <my-submit-bar :shopId="shopId"></my-submit-bar>
   </div>

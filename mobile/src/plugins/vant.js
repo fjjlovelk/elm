@@ -33,7 +33,8 @@ import {
   Switch,
   Popup,
   RadioGroup,
-  Radio
+  Radio,
+  Empty
 } from 'vant'
 
 Vue.use(Icon)
@@ -69,3 +70,4 @@ Vue.use(Switch)
 Vue.use(Popup)
 Vue.use(RadioGroup)
 Vue.use(Radio)
+Vue.use(Empty)

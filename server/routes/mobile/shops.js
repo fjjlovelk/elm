@@ -27,13 +27,23 @@ router.get('/subCategory', async (req, res) => {
 
 // 获取商家
 router.get('/', async (req, res) => {
-  const { query, pageNum, pageSize } = req.query
+  const { subCateId, query, pageNum, pageSize } = req.query
   try {
-    const total = await Shop.countDocuments()
-    const model = await Shop.find()
-      .where({ name: new RegExp(query) })
-      .skip((parseInt(pageNum) - 1) * parseInt(pageSize))
-      .limit(parseInt(pageSize))
+    let total, model
+    console.log(req.query);
+    if (subCateId) {
+      total = await Shop.find({ category: subCateId }).countDocuments()
+      model = await Shop.find()
+        .where({ category: subCateId, name: new RegExp(query) })
+        .skip((parseInt(pageNum) - 1) * parseInt(pageSize))
+        .limit(parseInt(pageSize))
+    } else {
+      total = await Shop.countDocuments()
+      model = await Shop.find()
+        .where({ name: new RegExp(query) })
+        .skip((parseInt(pageNum) - 1) * parseInt(pageSize))
+        .limit(parseInt(pageSize))
+    }
     const ret = {
       total: total,
       data: model
@@ -44,6 +54,7 @@ router.get('/', async (req, res) => {
     throw error
   }
 })
+
 // 根据id获取商家详情
 router.get('/:id', async (req, res) => {
   try {

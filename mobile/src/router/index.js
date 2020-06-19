@@ -18,6 +18,11 @@ const routes = [
     props: true
   },
   {
+    path: '/shopCate/:shopCateId',
+    component: () => import('../views/home/ShopCate.vue'),
+    props: true
+  },
+  {
     path: '/preview/:shopId',
     component: () => import('../views/home/Preview.vue'),
     props: true

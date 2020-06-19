@@ -5,8 +5,13 @@ import store from './store'
 import './plugins/vant'
 import './plugins/axios'
 import './assets/iconfont/iconfont.css'
+import moment from 'moment'
 
 Vue.config.productionTip = false
+
+Vue.filter('formatDate', (val) => {
+  return moment(val).format('YYYY-MM-DD HH:mm:ss')
+})
 
 new Vue({
   router,

@@ -1,7 +1,8 @@
 <template>
   <div class="order">
     <div v-if="isLogin">
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <van-empty v-if="empty" description="暂时还没有订单" />
+      <van-list v-else v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <div v-for="item in orderList" :key="item._id" class="list-item">
           <van-cell
             :icon="item.shop.shop_img"
@@ -10,22 +11,20 @@
             is-link
             :to="`/shop/${item.shop._id}`"
           />
-          <div @click="toOrderDetail(item._id)">
-            <div class="item-body">
-              <p v-for="goodsItem in item.goodsList" :key="goodsItem._id" class="item-body-p">
-                <span>{{goodsItem.goods.name}}</span>
-                <span class="color-text">x{{goodsItem.count}}</span>
-              </p>
-              <p class="item-body-p">
-                <span class="color-text">{{item.createdAt}}</span>
-                <span>实付 ￥{{item.total}}</span>
-              </p>
-            </div>
-            <div class="item-footer">
-              <span v-if="item.is_pay" class="color-text">订单已完成</span>
-              <span v-else class="color-text">订单已取消</span>
-              <span class="item-footer-btn" @click="delOrder(item._id)">删除</span>
-            </div>
+          <div class="item-body" @click="toOrderDetail(item._id)">
+            <p v-for="goodsItem in item.goodsList" :key="goodsItem._id" class="item-body-p">
+              <span>{{goodsItem.goods.name}}</span>
+              <span class="color-text">x{{goodsItem.count}}</span>
+            </p>
+            <p class="item-body-p">
+              <span class="color-text">{{item.createdAt | formatDate}}</span>
+              <span>实付 ￥{{item.total}}</span>
+            </p>
+          </div>
+          <div class="item-footer">
+            <span v-if="item.is_pay" class="color-text">订单已完成</span>
+            <span v-else class="color-text">订单已取消</span>
+            <span class="item-footer-btn" @click="delOrder(item._id)">删除</span>
           </div>
         </div>
       </van-list>
@@ -44,6 +43,7 @@ export default {
   data() {
     return {
       orderList: [],
+      empty: false,
       loading: false,
       finished: false,
       queryForm: {
@@ -58,6 +58,13 @@ export default {
       isLogin: state => state.isLogin,
       userInfo: state => state.userInfo
     })
+  },
+  watch: {
+    orderList(val) {
+      if (val.length === 0) {
+        this.empty = true
+      }
+    }
   },
   methods: {
     async getOrderList() {
@@ -86,7 +93,10 @@ export default {
           const { data: res } = await this.$http.delete(`orders/${id}`)
           if (res.meta.status === 200) {
             this.$toast.success(res.meta.message)
-            this.getOrderList()
+            const index = this.orderList.findIndex(item => {
+              return item._id === id
+            })
+            this.orderList.splice(index, 1)
           }
         })
         .catch(() => {})

@@ -12,7 +12,13 @@
       />
     </van-sticky>
     <van-grid :border="false">
-      <van-grid-item v-for="item in shopCate" :icon="item.icon" :text="item.name" :key="item._id" />
+      <van-grid-item
+        v-for="item in shopCate"
+        :to="`/shopCate/${item._id}`"
+        :icon="item.icon"
+        :text="item.name"
+        :key="item._id"
+      />
     </van-grid>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <van-card
