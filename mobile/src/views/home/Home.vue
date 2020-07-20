@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { getShopCate, getShopList } from '@/api/http'
 export default {
   data() {
     return {
@@ -59,16 +60,14 @@ export default {
   methods: {
     // 获取商家一级分类
     async getShopCate() {
-      const { data: res } = await this.$http.get('shops/category')
+      const { data: res } = await getShopCate()
       if (res.meta.status === 200) {
         this.shopCate = res.data
       }
     },
     // 获取商家列表
-    async getShop() {
-      const { data: res } = await this.$http.get('shops', {
-        params: this.queryForm
-      })
+    async getShopList() {
+      const { data: res } = await getShopList(this.queryForm)
       if (res.meta.status === 200) {
         this.queryForm.pageNum++
         this.shopList.push(...res.data.data)
@@ -82,11 +81,11 @@ export default {
     onSearch() {
       this.shopList = []
       this.queryForm.pageNum = 1
-      this.getShop()
+      this.getShopList()
     },
     // 商家卡片加载
     onLoad() {
-      this.getShop()
+      this.getShopList()
     },
     // 点击卡片进入商家
     selectShop(id) {

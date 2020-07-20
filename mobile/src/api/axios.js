@@ -26,4 +26,4 @@ http.interceptors.response.use(res => {
   return Promise.reject(err)
 })
 
-Vue.prototype.$http = http
+export default http

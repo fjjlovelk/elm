@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { getGoods } from '@/api/http'
 import { mapState } from 'vuex'
 import { add } from '@/utils/operation'
 export default {
@@ -65,7 +66,7 @@ export default {
   },
   methods: {
     async getGoods() {
-      const { data: res } = await this.$http.get(`goods/category/${this.shopId}`)
+      const { data: res } = await getGoods(this.shopId)
       if (res.meta.status === 200) {
         this.goodsCateList = res.data
         if (this.goodsCateList.length !== 0) {

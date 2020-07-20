@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { postLogin } from '@/api/http'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -42,7 +43,7 @@ export default {
   },
   methods: {
     async login() {
-      const { data: res } = await this.$http.post('login', this.form)
+      const { data: res } = await postLogin(this.form)
       if (res.meta.status === 200) {
         sessionStorage.setItem('token', res.data.token)
         this.$toast.success(res.meta.message)

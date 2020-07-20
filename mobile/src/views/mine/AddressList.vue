@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { getAddressList } from "@/api/http"
 import { mapState } from 'vuex'
 export default {
   props: {
@@ -54,9 +55,7 @@ export default {
   },
   methods: {
     async getAddressList() {
-      const { data: res } = await this.$http.get(
-        `/address/list/${this.userInfo._id}`
-      )
+      const { data: res } = await getAddressList(this.userInfo._id)
       if (res.meta.status === 200) {
         this.addressList = res.data
         if (res.data.length === 0) {

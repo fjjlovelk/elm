@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { getAddress, postAddress, putAddress, delAddress } from '@/api/http'
 import { mapState } from 'vuex'
 export default {
   props: {
@@ -67,23 +68,20 @@ export default {
   },
   methods: {
     async getAddressData() {
-      const { data: res } = await this.$http.get(`address/${this.addressId}`)
+      const { data: res } = await getAddress(this.addressId)
       if (res.meta.status === 200) {
         this.form = res.data
       }
     },
     async onSubmit() {
       if (this.addressId) {
-        const { data: res } = await this.$http.put(
-          `address/${this.addressId}`,
-          this.form
-        )
+        const { data: res } = await putAddress(this.addressId, this.form)
         if (res.meta.status === 200) {
           this.$toast.success(res.meta.message)
         }
       } else {
         this.form.user = this.userInfo._id
-        const { data: res } = await this.$http.post('address', this.form)
+        const { data: res } = await postAddress(this.form)
         if (res.meta.status === 201) {
           this.$toast.success(res.meta.message)
         }
@@ -97,9 +95,7 @@ export default {
           message: '确定要删除该地址吗'
         })
         .then(async () => {
-          const { data: res } = await this.$http.delete(
-            `address/${this.addressId}`
-          )
+          const { data: res } = await delAddress(this.addressId)
           if (res.meta.status === 200) {
             this.$toast.success(res.meta.message)
             this.$router.go(-1)

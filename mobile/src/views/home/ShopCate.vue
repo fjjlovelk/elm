@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { getShopSubCate, getShopList } from '@/api/http'
 export default {
   props: {
     shopCateId: { type: String, required: true }
@@ -45,23 +46,19 @@ export default {
     }
   },
   created() {
-    this.getSubCate()
+    this.getShopSubCate()
   },
   methods: {
-    async getSubCate() {
-      const { data: res } = await this.$http.get('shops/subCategory', {
-        params: { id: this.shopCateId }
-      })
+    async getShopSubCate() {
+      const { data: res } = await getShopSubCate(this.shopCateId)
       if (res.meta.status === 200) {
         this.subCateList = res.data
         this.queryForm.subCateId = res.data[0]._id
       }
     },
     // 获取商家列表
-    async getShop() {
-      const { data: res } = await this.$http.get('shops', {
-        params: this.queryForm
-      })
+    async getShopList() {
+      const { data: res } = await getShopList(this.queryForm)
       if (res.meta.status === 200) {
         this.queryForm.pageNum++
         this.shopList.push(...res.data.data)
@@ -76,11 +73,11 @@ export default {
       this.shopList = []
       this.queryForm.pageNum = 1
       this.queryForm.subCateId = id
-      this.getShop()
+      this.getShopList()
     },
     // 商家卡片加载
     onLoad() {
-      this.getShop()
+      this.getShopList()
     },
     // 点击卡片进入商家
     selectShop(id) {

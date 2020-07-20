@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { getOrderList, delOrder } from '@/api/http'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -69,9 +70,7 @@ export default {
   methods: {
     async getOrderList() {
       this.queryForm.userId = this.userInfo._id
-      const { data: res } = await this.$http.get('orders/list', {
-        params: this.queryForm
-      })
+      const { data: res } = await getOrderList(this.queryForm)
       if (res.meta.status === 200) {
         this.queryForm.pageNum++
         this.orderList.push(...res.data.data)
@@ -90,7 +89,7 @@ export default {
           message: '确认删除该订单？'
         })
         .then(async () => {
-          const { data: res } = await this.$http.delete(`orders/${id}`)
+          const { data: res } = await delOrder(id)
           if (res.meta.status === 200) {
             this.$toast.success(res.meta.message)
             const index = this.orderList.findIndex(item => {

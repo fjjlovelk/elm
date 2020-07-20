@@ -13,7 +13,6 @@
       <van-tab title="点餐">
         <shop-content :shopId="shopId"></shop-content>
       </van-tab>
-      <van-tab title="评价">2</van-tab>
       <van-tab title="商家">
         <van-cell-group>
           <van-cell title="地址" icon="location-o" :value="shopDetail.address" />
@@ -28,6 +27,7 @@
 </template>
 
 <script>
+import { getShopDetail } from '@/api/http'
 import ShopCard from './ShopCard'
 import ShopContent from './ShopContent'
 import ShopSubmitBar from './ShopSubmitBar'
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     async getShopDetail() {
-      const { data: res } = await this.$http.get(`shops/${this.shopId}`)
+      const { data: res } = await getShopDetail(this.shopId)
       if (res.meta.status === 200) {
         this.shopDetail = res.data
         this.$store.commit('saveShopDetail', res.data)

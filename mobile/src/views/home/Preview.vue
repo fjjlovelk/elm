@@ -81,8 +81,9 @@
 </template>
 
 <script>
+import { postOrder } from '@/api/http'
 import { mapState } from 'vuex'
-import { add } from '../../utils/operation'
+import { add } from '@/utils/operation'
 export default {
   props: {
     shopId: { type: String, required: true }
@@ -164,7 +165,7 @@ export default {
       }
     },
     async postOrder(data) {
-      const { data: res } = await this.$http.post('orders', data)
+      const { data: res } = await postOrder(data)
       if(res.meta.status === 201) {
         this.$store.commit('delCartData', this.shopId)
         this.$router.push('/order')

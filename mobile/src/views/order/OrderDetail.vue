@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { getOrderData } from '@/api/http'
 export default {
   props: {
     orderId: { type: String, required: true }
@@ -69,7 +70,7 @@ export default {
   },
   methods: {
     async getOrderData() {
-      const { data: res } = await this.$http.get(`orders/${this.orderId}`)
+      const { data: res } = await getOrderData(this.orderId)
       if (res.meta.status === 200) {
         console.log(res)
         this.orderData = res.data
