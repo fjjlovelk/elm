@@ -52,7 +52,7 @@
               type="primary"
               size="mini"
               icon="el-icon-edit"
-              @click="editGoods(scope.row._id)"
+              @click="editGoods(scope.row)"
             >编辑</el-button>
             <el-button
               type="danger"
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { getGoodsList, delGoods } from '@/api/http'
 export default {
   data() {
     return {
@@ -95,9 +96,7 @@ export default {
   },
   methods: {
     async getGoodsList() {
-      const { data: res } = await this.$http.get('goods', {
-        params: this.queryForm
-      })
+      const { data: res } = await getGoodsList(this.queryForm)
       this.total = res.data.total
       this.goodsList = res.data.data
     },
@@ -114,8 +113,14 @@ export default {
       this.queryForm.pageSize = 20
       this.getGoodsList()
     },
-    editGoods(goodsId) {
-      this.$router.push(`/goodsEdit/${goodsId}`)
+    editGoods(row) {
+      this.$router.push({
+        path: '/goodsEdit',
+        query: {
+          goodsId: row._id,
+          shopId: row.shop._id
+        }
+      })
     },
     delGoods(row) {
       this.$confirm(`确定删除商品 ${row.name} 吗`, '提示', {
@@ -124,9 +129,7 @@ export default {
         type: 'warning'
       })
         .then(async () => {
-          const { data: res } = await this.$http.delete(
-            `goods/${row._id}`
-          )
+          const { data: res } = await delGoods(row._id)
           this.$message.success(res.meta.message)
           this.getGoodsList()
         })

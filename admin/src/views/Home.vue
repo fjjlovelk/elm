@@ -74,12 +74,6 @@ export default {
           children: [
             { name: '商品列表', path: '/goodsList' }
           ]
-        },
-        {
-          name: '订单管理',
-          path: '/orderList',
-          icon: 'iconorder',
-          children: [{ name: '订单列表', path: '/orderList' }]
         }
       ]
     }

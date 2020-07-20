@@ -98,6 +98,15 @@
 </template>
 
 <script>
+import {
+  getCategoryList,
+  postCategory,
+  putCategory,
+  delCategory,
+  postSubCate,
+  putSubCate,
+  delSubCate
+} from '@/api/http'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -153,7 +162,7 @@ export default {
     },
     // 获取分类列表
     async getCategoryList() {
-      const { data: res } = await this.$http.get('shops/category')
+      const { data: res } = await getCategoryList()
       this.categoryList = res.data
     },
     // 确定添加/修改一级分类
@@ -161,16 +170,10 @@ export default {
       this.$refs.cateRef.validate(async valid => {
         if (!valid) return false
         if (this.cateId) {
-          const { data: res } = await this.$http.put(
-            `shops/category/${this.cateId}`,
-            this.cateForm
-          )
+          const { data: res } = await putCategory(this.cateId, this.cateForm)
           this.$message.success(res.meta.message)
         } else {
-          const { data: res } = await this.$http.post(
-            'shops/category',
-            this.cateForm
-          )
+          const { data: res } = await postCategory(this.cateForm)
           this.$message.success(res.meta.message)
         }
         this.getCategoryList()
@@ -182,16 +185,10 @@ export default {
       this.$refs.subCateRef.validate(async valid => {
         if (!valid) return false
         if (this.cateId) {
-          const { data: res } = await this.$http.put(
-            `shops/subCategory/${this.cateId}`,
-            this.subCateForm
-          )
+          const { data: res } = await putSubCate(this.cateId, this.subCateForm)
           this.$message.success(res.meta.message)
         } else {
-          const { data: res } = await this.$http.post(
-            'shops/subCategory',
-            this.subCateForm
-          )
+          const { data: res } = await postSubCate(this.subCateForm)
           this.$message.success(res.meta.message)
         }
         this.getCategoryList()
@@ -211,27 +208,17 @@ export default {
     },
     // 确定删除一级分类、二级分类
     delCategory(row) {
-      if (row.level === 1) {
-        this.confirmDel(
-          `确定删除一级分类 ${row.name} 及其所有子分类吗`,
-          `shops/category/${row._id}`
-        )
-      } else {
-        this.confirmDel(
-          `确定删除二级分类 ${row.name} 吗`,
-          `shops/subCategory/${row._id}`
-        )
-      }
-    },
-    // 从两个删除中抽离出来的公共方法
-    confirmDel(tip, url) {
-      this.$confirm(tip, '提示', {
+      this.$confirm(`确定删除分类 ${row.name} 吗`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(async () => {
-          const { data: res } = await this.$http.delete(url)
+          if (row.level === 1) {
+            const { data: res } = await delCategory(row._id)
+          } else {
+            const { data: res } = await delSubCate(row._id)
+          }
           this.$message.success(res.meta.message)
           this.getCategoryList()
         })

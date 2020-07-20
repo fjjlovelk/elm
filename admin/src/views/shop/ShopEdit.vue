@@ -147,6 +147,7 @@
 </template>
 
 <script>
+import { getCategoryList, getShopDetail, postShop, putShop } from '@/api/http'
 import { mapState } from 'vuex'
 export default {
   props: {
@@ -208,12 +209,12 @@ export default {
   methods: {
     // 获取分类列表
     async getCategoryList() {
-      const { data: res } = await this.$http.get('shops/category')
+      const { data: res } = await getCategoryList()
       this.categoryList = res.data
     },
     // 获取商家详情
     async getShopDetail() {
-      const { data: res } = await this.$http.get(`/shops/${this.id}`)
+      const { data: res } = await getShopDetail(this.id)
       this.shopForm = res.data
       this.shopForm.category = [res.data.category.parent._id, res.data.category._id]
     },
@@ -224,16 +225,10 @@ export default {
           this.shopForm.category = this.shopForm.category[1]
         }
         if (this.id) {
-          const { data: res } = await this.$http.put(
-            `shops/${this.id}`,
-            this.shopForm
-          )
+          const { data: res } = await putShop(this.id, this.shopForm)
           this.$message.success(res.meta.message)
         } else {
-          const { data: res } = await this.$http.post(
-            'shops',
-            this.shopForm
-          )
+          const { data: res } = await postShop(this.shopForm)
           this.$message.success(res.meta.message)
         }
         this.$router.push('/shopList')

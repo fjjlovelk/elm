@@ -92,6 +92,7 @@
 </template>
 
 <script>
+import { getShopList, delShop } from '@/api/http'
 export default {
   data() {
     return {
@@ -110,9 +111,7 @@ export default {
   },
   methods: {
     async getShopList() {
-      const { data: res } = await this.$http.get('shops', {
-        params: this.queryForm
-      })
+      const { data: res } = await getShopList(this.queryForm)
       this.total = res.data.total
       this.shopList = res.data.data
     },
@@ -132,8 +131,13 @@ export default {
     editShop(id) {
       this.$router.push(`/shopEdit/${id}`)
     },
-    addGoods(shopId){
-      this.$router.push(`/goodsEdit/${shopId}`)
+    addGoods(shopId) {
+      this.$router.push({
+        path: '/goodsEdit',
+        query: {
+          shopId: shopId
+        }
+      })
     },
     delShop(row) {
       this.$confirm(`确定删除商家 ${row.name} 吗`, '提示', {
@@ -142,9 +146,7 @@ export default {
         type: 'warning'
       })
         .then(async () => {
-          const { data: res } = await this.$http.delete(
-            `shops/${row._id}`
-          )
+          const { data: res } = await delShop(row._id)
           this.$message.success(res.meta.message)
           this.getShopList()
         })

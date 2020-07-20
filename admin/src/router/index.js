@@ -93,22 +93,12 @@ const routes = [
         }
       },
       {
-        path: '/goodsEdit/:id',
+        path: '/goodsEdit',
         name: 'GoodsEdit',
         component: () => import('../views/goods/GoodsEdit.vue'),
         meta: {
           keepAlive: false,
           navName: ['商品管理', '商品编辑']
-        },
-        props: true
-      },
-      {
-        path: '/orderList',
-        name: 'OrderList',
-        component: () => import('../views/order/OrderList.vue'),
-        meta: {
-          keepAlive: true,
-          navName: ['订单管理', '订单列表']
         }
       }
     ]

@@ -67,11 +67,17 @@
 </template>
 
 <script>
+import {
+  getShopDetail,
+  getGoodsDetail,
+  postGoods,
+  putGoods,
+  getGoodsCate,
+  postGoodsCate,
+  delGoodsCate
+} from '@/api/http'
 import { mapState } from 'vuex'
 export default {
-  props: {
-    id: { type: String }
-  },
   data() {
     return {
       goodsForm: {
@@ -93,7 +99,9 @@ export default {
         name: [{ required: true, message: '请填写商品名称', trigger: 'blur' }]
       },
       shopName: '',
-      flag: false
+      flag: false,
+      goodsId: null,
+      shopId: null
     }
   },
   computed: {
@@ -104,41 +112,38 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
+      vm.shopId = vm.$route.query.shopId
       if (from.path === '/goodsList') {
         vm.flag = true
+        vm.goodsId = vm.$route.query.goodsId
         vm.getGoodsDetail()
       } else {
         vm.flag = false
         vm.getShop()
       }
+      vm.getGoodsCate()
     })
-  },
-  created() {
-    this.getGoodsCate()
   },
   methods: {
     async getGoodsDetail() {
-      const { data: res } = await this.$http.get(`goods/${this.id}`)
+      const { data: res } = await getGoodsDetail(this.goodsId)
       this.goodsForm = res.data
-      this.goodsForm.category = res.data.category._id
       this.shopName = res.data.shop.name
+      this.goodsForm.category = res.data.category._id
     },
     async getGoodsCate() {
-      const { data: res } = await this.$http.get(`goods/category/${this.id}`)
+      const { data: res } = await getGoodsCate(this.shopId)
       this.goodsCateList = res.data
     },
     async getShop() {
-      const { data: res } = await this.$http.get(`shops/${this.id}`)
+      const { data: res } = await getShopDetail(this.shopId)
       this.shopName = res.data.name
     },
     // 添加商品分类
     async addGoodsCate() {
       if (this.goodsCateForm.name === '') return
-      this.goodsCateForm.shop = this.id
-      const { data: res } = await this.$http.post(
-        'goods/category',
-        this.goodsCateForm
-      )
+      this.goodsCateForm.shop = this.shopId
+      const { data: res } = await postGoodsCate(this.goodsCateForm)
       if (res.meta.status === 201) {
         this.$message.success(res.meta.message)
         this.goodsCateForm.name = ''
@@ -154,9 +159,7 @@ export default {
         type: 'warning'
       })
         .then(async () => {
-          const { data: res } = await this.$http.delete(
-            `goods/category/${this.goodsForm.category}`
-          )
+          const { data: res } = await delGoodsCate(this.goodsForm.category)
           if (res.meta.status === 200) {
             this.$message.success(res.meta.message)
             this.goodsForm.category = ''
@@ -169,14 +172,11 @@ export default {
       this.$refs.goodsRef.validate(async valid => {
         if (!valid) return false
         if (this.flag) {
-          const { data: res } = await this.$http.put(
-            `goods/${this.id}`,
-            this.goodsForm
-          )
+          const { data: res } = await putGoods(this.goodsId, this.goodsForm)
           this.$message.success(res.meta.message)
         } else {
-          this.goodsForm.shop = this.id
-          const { data: res } = await this.$http.post('goods', this.goodsForm)
+          this.goodsForm.shop = this.shopId
+          const { data: res } = await postGoods(this.goodsForm)
           this.$message.success(res.meta.message)
         }
         this.$router.push('/goodsList')

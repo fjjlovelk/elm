@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { getAdminList } from '@/api/http'
 export default {
   data() {
     return {
@@ -39,9 +40,7 @@ export default {
   },
   methods: {
     async getAdminList() {
-      const { data: res } = await this.$http.get('admins', {
-        params: this.queryForm
-      })
+      const { data: res } = await getAdminList(this.queryForm)
       this.adminList = res.data.data
       this.total = res.data.total
     },

@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { login } from '@/api/http'
 export default {
   data() {
     return {
@@ -51,7 +52,7 @@ export default {
       this.$refs.loginRef.validate(async valid => {
         if (!valid) return false
         try {
-          const { data: res } = await this.$http.post('login', this.loginForm)
+          const { data: res } = await login(this.loginForm)
           if (res.meta.status === 200) {
             this.$message.success(res.meta.message)
             sessionStorage.setItem('token', res.data)
