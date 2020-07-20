@@ -3,15 +3,15 @@
     <div class="back-btn">
       <van-icon name="arrow-left" size="20px" color="#fff" @click="$router.go(-1)" />
     </div>
-    <my-card
+    <shop-card
       :title="shopDetail.name"
       :slogan="shopDetail.slogan"
       :desc="shopDetail.description"
       :imgURL="shopDetail.shop_img"
-    ></my-card>
+    ></shop-card>
     <van-tabs v-model="active" animated sticky>
       <van-tab title="点餐">
-        <my-order :shopId="shopId"></my-order>
+        <shop-content :shopId="shopId"></shop-content>
       </van-tab>
       <van-tab title="评价">2</van-tab>
       <van-tab title="商家">
@@ -23,19 +23,19 @@
         </van-cell-group>
       </van-tab>
     </van-tabs>
-    <my-submit-bar :shopId="shopId"></my-submit-bar>
+    <shop-submit-bar :shopId="shopId"></shop-submit-bar>
   </div>
 </template>
 
 <script>
-import MyCard from '../../components/MyCard'
-import MyOrder from '../../components/MyOrder'
-import MySubmitBar from '../../components/MySubmitBar'
+import ShopCard from './ShopCard'
+import ShopContent from './ShopContent'
+import ShopSubmitBar from './ShopSubmitBar'
 export default {
   components: {
-    MyCard,
-    MyOrder,
-    MySubmitBar
+    ShopCard,
+    ShopContent,
+    ShopSubmitBar
   },
   props: {
     shopId: {

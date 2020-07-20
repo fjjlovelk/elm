@@ -39,7 +39,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { add } from '../utils/operation'
+import { add } from '@/utils/operation'
 export default {
   props: {
     shopId: { type: String, required: true }
