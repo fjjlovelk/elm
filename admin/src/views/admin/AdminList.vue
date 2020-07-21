@@ -5,7 +5,7 @@
         <el-table-column type="index" :index="indexMethod"></el-table-column>
         <el-table-column label="姓名" prop="username"></el-table-column>
         <el-table-column label="注册日期">
-          <template v-slot="scope">{{$moment(scope.row.createdAt).format('YYYY-MM-DD HH:mm')}}</template>
+          <template v-slot="scope">{{scope.row.createdAt | formatDate}}</template>
         </el-table-column>
       </el-table>
       <el-pagination
