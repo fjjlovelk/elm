@@ -39,15 +39,6 @@ const routes = [
         }
       },
       {
-        path: '/userData',
-        name: 'UserData',
-        component: () => import('../views/user/UserData.vue'),
-        meta: {
-          keepAlive: true,
-          navName: ['用户管理', '用户分析']
-        }
-      },
-      {
         path: '/shopList',
         name: 'ShopList',
         component: () => import('../views/shop/ShopList.vue'),

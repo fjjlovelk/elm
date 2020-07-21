@@ -53,8 +53,7 @@ export default {
           path: '/userList',
           icon: 'iconusers',
           children: [
-            { name: '用户列表', path: '/userList' },
-            { name: '用户分析', path: '/userData' }
+            { name: '用户列表', path: '/userList' }
           ]
         },
         {

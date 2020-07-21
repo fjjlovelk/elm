@@ -18,6 +18,12 @@ export function getAdminList(form) {
 
 /*--------------------user-------------------*/
 
+// 获取用户列表  UserList.vue
+export function getUserList(form) {
+  return http.get('users', {
+    params: form
+  })
+}
 
 /*--------------------shop-------------------*/
 

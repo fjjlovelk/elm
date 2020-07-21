@@ -101,38 +101,6 @@
               </el-upload>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="上传营业执照">
-              <el-upload
-                class="avatar-uploader"
-                :show-file-list="false"
-                :action="uploadURL"
-                :headers="headers"
-                :on-success="res => {
-                  this.shopForm.license_img = res.url
-                }"
-              >
-                <img v-if="shopForm.license_img" :src="shopForm.license_img" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="上传餐饮服务许可证">
-              <el-upload
-                class="avatar-uploader"
-                :show-file-list="false"
-                :action="uploadURL"
-                :headers="headers"
-                :on-success="res => {
-                  this.shopForm.service_img = res.url
-                }"
-              >
-                <img v-if="shopForm.service_img" :src="shopForm.service_img" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-form-item v-if="id">
           <el-button type="primary" @click="submit">确定修改</el-button>
@@ -180,8 +148,6 @@ export default {
           is_bill: false
         },
         shop_img: '', // 店铺图片
-        license_img: '', // 营业执照
-        service_img: '' // 餐饮服务许可证
       },
       categoryList: [],
       shopRule: {

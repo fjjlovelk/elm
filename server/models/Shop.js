@@ -18,9 +18,7 @@ const schema = new mongoose.Schema({
     is_ontime: { type: Boolean },
     is_bill: { type: Boolean }
   },
-  shop_img: { type: String },
-  license_img: { type: String },
-  service_img: { type: String }
+  shop_img: { type: String }
 })
 
 module.exports = mongoose.model('Shop', schema)
