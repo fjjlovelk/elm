@@ -94,7 +94,7 @@ server  http://localhost:3000
 .
 ├── src                       // 源码目录
 │   ├── api                   // 对axios进行封装，对接口统一管理
-|	  ├──	assets								// 图片和iconfont
+|   ├──	assets								// 图片和iconfont
 │   ├── components            // 组件
 │   ├── plugins               // 引用的插件
 │   ├── public                // 静态资源，入口html文件和图标
