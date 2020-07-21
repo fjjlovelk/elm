@@ -94,14 +94,14 @@ server  http://localhost:3000
 .
 ├── src                       // 源码目录
 │   ├── api                   // 对axios进行封装，对接口统一管理
-|   ├──	assets								// 图片和iconfont
+|   ├──	assets                // 图片和iconfont
 │   ├── components            // 组件
 │   ├── plugins               // 引用的插件
 │   ├── public                // 静态资源，入口html文件和图标
 │   ├── router                // 路由配置
 │   ├── store                 // vuex的状态管理
-│   ├── utils									// 工具类
-│   ├── views									// 页面文件
+│   ├── utils                 // 工具类
+│   ├── views                 // 页面文件
 │   ├── App.vue               // 页面入口文件
 │   ├── main.js               // 程序入口文件，加载各种公共组件
 ├── Vue.config.js             // vue和webpack配置文件
