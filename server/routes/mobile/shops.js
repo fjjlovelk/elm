@@ -30,7 +30,6 @@ router.get('/', async (req, res) => {
   const { subCateId, query, pageNum, pageSize } = req.query
   try {
     let total, model
-    console.log(req.query);
     if (subCateId) {
       total = await Shop.find({ category: subCateId }).countDocuments()
       model = await Shop.find()

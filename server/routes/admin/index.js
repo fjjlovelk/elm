@@ -7,6 +7,5 @@ router.use('/admins', adminAuth, require('./admins'))
 router.use('/users', adminAuth, require('./users'))
 router.use('/shops', adminAuth, require('./shops'))
 router.use('/goods', adminAuth, require('./goods'))
-router.use('/orders', adminAuth, require('./orders'))
 
 module.exports = router
