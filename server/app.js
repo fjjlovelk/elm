@@ -13,6 +13,9 @@ app.use(require('./middleware/sendResult'))
 app.use('/api/mobile', require('./routes/mobile/index'))
 app.use('/api/admin', require('./routes/admin/index'))
 app.use('/api/uploads', adminAuth, require('./routes/uploads'))
+
+app.use('/', express.static(__dirname + '/public/mobile'))
+app.use('/admin', express.static(__dirname + '/public/admin'))
 app.use('/uploads', express.static(__dirname + '/uploads'))
 
 app.listen(3000, () => {

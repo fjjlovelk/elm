@@ -2,7 +2,8 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'http://localhost:3000/api/mobile/'
+  baseURL: process.env.VUE_APP_DEV_API || '/api/mobile/'
+  // baseURL: 'http://localhost:3000/api/mobile/'
 })
 
 http.interceptors.request.use(config => {

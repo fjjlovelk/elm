@@ -1,4 +1,5 @@
 module.exports = {
+  outputDir: __dirname + '/../server/public/mobile',
   devServer: {
     open: true,
     port: 8091
