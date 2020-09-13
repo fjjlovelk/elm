@@ -24,7 +24,8 @@ router.post('/', async (req, res) => {
       }
     }
   } catch (error) {
-    res.sendResult(false, 500, '服务器内部错误')
+    // res.sendResult(false, 500, '服务器内部错误')
+    res.sendResult(false, 500, error)
     throw error
   }
 
