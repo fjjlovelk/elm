@@ -6,8 +6,7 @@ const User = require('../../models/User')
 router.post('/', async (req, res) => {
   try {
     let { username, password } = req.body
-    username = String(username)
-    password = String(password)
+    password = password.substring(1, password.length - 1)
     const user = await User.findOne({ username }).select('+password')
     let token = null
     if (!user) {
