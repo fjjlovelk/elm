@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 
 router.post('/', async (req, res) => {
-  try {
+  // try {
     const { username, password } = req.body
     const user = await User.findOne({ username }).select('+password')
     let token = null
@@ -23,11 +23,10 @@ router.post('/', async (req, res) => {
         res.sendResult(isValid, 422, '密码错误')
       }
     }
-  } catch (error) {
-    // res.sendResult(false, 500, '服务器内部错误')
-    res.sendResult(false, 500, error)
-    throw error
-  }
+  // } catch (error) {
+  //   res.sendResult(false, 500, '服务器内部错误')
+  //   throw error
+  // }
 
 })
 
